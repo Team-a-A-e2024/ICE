@@ -9,3 +9,4 @@ Emil Wolfert Schmidt Andersen [cph-ea178@chpbusiness.dk](mailto:cph-ea178@chpbus
 Frederik Bastiansen [cph-fb157@cphbusiness.dk](mailto:cph-fb157@cphbusiness.dk)
 
 Thomas Atchapero [cph-ta241@cphbusiness.dk](mailto:cph-ta241@cphbusiness.dk)
+
