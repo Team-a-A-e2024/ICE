@@ -1,0 +1,15 @@
+@startuml
+
+       object User
+       object Product
+       object Food
+       object Beverage
+       object Dish
+
+       User --- Product
+       User --- Dish
+       Dish --- Product
+       Product --- Food
+       Product --- Beverage
+
+       @enduml

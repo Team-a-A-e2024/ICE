@@ -1,0 +1,15 @@
+@startuml
+
+entity Users
+entity Products
+entity Dishes
+entity UsersDishes
+entity UsersProducts
+
+Users ||---|{ UsersDishes
+Users ||---|{ UsersProducts
+UsersDishes }|---|| Dishes
+UsersProducts }|---|| Products
+Dishes ||--|{ Products
+
+@enduml

@@ -1,0 +1,42 @@
+@startuml
+
+class AppService {
+    - User user
+    - searchProduct()
+}
+
+class User {
+    - List<Strings> allergens
+}
+class Product {
+}
+class Dish {
+    - Set<Product, weight> ingredients
+}
+
+package "util" {
+    class DbConnector {
+        - create()
+        - read()
+        - update()
+        - delete()
+        - saveProduct()
+        - getProduct()
+    }
+    class ApiService {
+        - searchProduct()
+    }
+    class TextUI {
+    }
+    class Authorization {
+        - Login()
+        - SignUp()
+    }
+}
+
+AppService *--- User
+User *--- Product
+User *--- Dish
+Dish *--- Product
+
+@enduml
