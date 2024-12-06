@@ -1,8 +1,8 @@
-package user;
+package User;
 
 
 import pl.coderion.model.Product;
-import user.Dish;
+
 import java.util.Set;
 
 public class User {
