@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+//entire class copied from SP3
+
 public class TextUI {
     private static Scanner scan = new Scanner(System.in);
 
@@ -78,8 +80,6 @@ public class TextUI {
             i++;
         }
     }
-
-
 
     public static void setScanner(Scanner scanner) {
         scan = scanner;
