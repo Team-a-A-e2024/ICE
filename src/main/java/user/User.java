@@ -2,8 +2,7 @@ package user;
 
 
 import pl.coderion.model.Product;
-
-import java.util.ArrayList;
+import user.Dish;
 import java.util.Set;
 
 public class User {
