@@ -1,7 +1,8 @@
+package User;
+
 import pl.coderion.model.Product;
 import java.util.HashMap;
 import java.util.Map;
-
 
 public class Dish {
 protected Map<pl.coderion.model.Product, Float> ingredients;
