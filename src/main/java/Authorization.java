@@ -13,11 +13,12 @@ public class Authorization {
     public boolean login(String userName, String password) {
         ArrayList<User> users = new ArrayList<>();
 
-
+        //Test if we are connected to database
         String connectionString = "jdbc:sqlite:C:\\Users\\Alissa\\IdeaProjects\\ICE\\identifier.sqlite";
         try (Connection con = DriverManager.getConnection(connectionString)){
             System.out.println("Connected to database");
 
+            // The Statement is used to send SQL queries to the database. (SELECT, INSERT etc.)
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(loadFullUser);
 
