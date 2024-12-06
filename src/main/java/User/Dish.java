@@ -19,5 +19,3 @@ public Dish(Map<pl.coderion.model.Product, Float> ingredients) {
         this.ingredients = ingredients;
     }
 }
-
-
