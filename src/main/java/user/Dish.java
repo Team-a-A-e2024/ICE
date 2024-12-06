@@ -1,4 +1,4 @@
-package User;
+package user;
 
 import pl.coderion.model.Product;
 import java.util.HashMap;
