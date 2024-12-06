@@ -27,7 +27,14 @@ package "util" {
         - searchProduct()
     }
     class TextUI {
-    }
+        - TextUI()
+        - Scanner scanner
+        + void displayMsg(String s)
+        + int promptNumeric(String msg)
+        + String promptText(String msg)
+        + int promptChoice(String msg, List<String> list)
+        + boolean promptBinary(String msg )
+        }
     class Authorization {
         - Login()
         - SignUp()
