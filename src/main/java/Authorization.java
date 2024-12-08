@@ -1,66 +1,36 @@
 import Model.User;
+import Persistens.UserRepo;
 
 import java.sql.*;
 import java.util.ArrayList;
 
 public class Authorization {
 
-    private String loadFullUser = "SELECT userName, password FROM Users";
-    private String loadUserName = "SELECT userName FROM Users";
-
-
-
     public boolean login(String userName, String password) {
-        ArrayList<User> users = new ArrayList<>();
 
-        //Test if we are connected to database
-        String connectionString = "jdbc:sqlite:C:\\Users\\Alissa\\IdeaProjects\\ICE\\identifier.sqlite";
-        try (Connection con = DriverManager.getConnection(connectionString)){
-            System.out.println("Connected to database");
+        ArrayList<User> users = UserRepo.loadUsers();
 
-            // The Statement is used to send SQL queries to the database. (SELECT, INSERT etc.)
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(loadFullUser);
+        if (users.isEmpty()) {
+            System.out.println("Login failed: No users found in the database.");
+            return false;
+        }
 
-            while (rs.next()) {
-                String name = rs.getString("userName");
-                String pass = rs.getString("password");
-
-                User user = new User(name, pass);
-                users.add(user);
-            }
-
-            if (users.isEmpty()) {
-                System.out.println("Login failed: No users found in the database.");
-                return false;
-            }
-
-            for(User u : users){
-                if(u.getUserName().equals(userName)){
-                    if(u.getPassword().equals(password)) {
-                        System.out.println("Login successful");
-                        return true;
-                    }
-                    else{
-                        System.out.println("password does not match");
-                        return false;
-                    }
-                }
-                else{
-                    System.out.println("Username does not match");
+        for (User u : users) {
+            if (u.getUserName().equals(userName)) {
+                if (u.getPassword().equals(password)) {
+                    System.out.println("Login successful");
+                    return true;
+                } else {
+                    System.out.println("password does not match");
                     return false;
                 }
+            } else {
+                System.out.println("Username does not match");
+                return false;
             }
-            stmt.close();
-            con.close();
-            return false;
-
-        }
-
-        catch (SQLException e) {
-            e.printStackTrace();
         }
         return false;
+
     }
 
 
