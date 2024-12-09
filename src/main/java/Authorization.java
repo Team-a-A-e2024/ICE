@@ -38,6 +38,7 @@ public class Authorization {
 
             ArrayList<User> users = UserRepo.loadUsers();
 
+            assert users != null;
             if (users.isEmpty()) {
                 User newUser = new User(userName, password);
                 UserRepo.saveUser(newUser);

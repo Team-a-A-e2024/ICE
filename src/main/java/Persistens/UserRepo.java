@@ -38,7 +38,7 @@ public class UserRepo {
         catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return users;
     }
 
     public static boolean saveUser(User user) {
