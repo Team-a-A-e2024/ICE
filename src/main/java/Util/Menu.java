@@ -1,8 +1,12 @@
 package Util;
 
-import java.util.ArrayList;
+import util.TextUI;
+import java.util.*;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.ArrayList;
+import static java.lang.System.exit;
 
 public class Menu {
 
@@ -47,7 +51,7 @@ public class Menu {
             //Then checks if that username key has the same password as entered
             if (users.containsKey(username)) {
                 if (users.get(username).equals(password)) {
-                    TextUI.displayMsg("You have successfully logged in. Welcome " + username + " to NotFlix");
+                    TextUI.displayMsg("You have successfully logged in. Welcome " + username + " to NutritionApp");
                     return new User(username, password);
                 }
             }
@@ -93,6 +97,38 @@ public class Menu {
 
         // SKAL FIXES: FileIO.saveCredentials(username, password, "data/credentials");
 
-        TextUI.displayMsg("User created successfully. Welcome to NotFlix");
+        TextUI.displayMsg("User created successfully. Welcome to NutritionApp");
+    }
+
+    public static void displayMenu() {
+        List<String> options = new ArrayList();
+        options.add("Search media");
+        options.add("Search products");
+        options.add("See saved products");
+        options.add("See saved recipes");
+        options.add("Exit");
+        options = TextUI.promptChoice(options, 1, "What would you like to do?");
+        Set<Menu> result = new HashSet<>();
+        switch (options.get(0)) {
+            case "Scan barcode":
+                result = searchMedia();
+                selectTitle(result);
+                break;
+            case "Search products":
+                result = searchCategory();
+                selectTitle(result);
+                break;
+            case "See saved products":
+                //missing function. in user?
+                break;
+            case "See saved recipes":
+                //missing function. in user?
+                break;
+            case "Exit":
+                //saveWatchedAndSavedMedia();
+                exit(0);
+                break;
+        }
+        displayMenu();
     }
 }
