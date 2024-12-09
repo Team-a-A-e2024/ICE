@@ -34,7 +34,7 @@ public class Barscanner {
 
     public static String readCodeFromPath(String path){
         try {
-            return readQR(ImageIO.read(new FileInputStream(path)));
+            return readCodeFromImage(ImageIO.read(new FileInputStream(path)));
         }
         catch (FileNotFoundException e){
             TextUI.displayMsg("File not found:" + e.getMessage());
