@@ -18,9 +18,7 @@ public class Barscanner {
     //code source: https://www.geeksforgeeks.org/how-to-generate-and-read-qr-code-with-java-using-zxing-library/
     //minorly modified for usage
     // Function to read the QR file
-    public static String readQR(BufferedImage image)
-
-    {
+    public static String readQR(BufferedImage image) {
         try {
             BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(image)));
 
