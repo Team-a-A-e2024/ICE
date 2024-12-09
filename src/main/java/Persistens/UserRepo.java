@@ -13,7 +13,7 @@ public class UserRepo {
     static ArrayList<User> users = new ArrayList<>();
 
     //Test if we are connected to database
-    static String connectionString = "jdbc:sqlite:C:\\Users\\Alissa\\IdeaProjects\\ICE\\identifier.sqlite";
+    static String connectionString = "jdbc:sqlite:" + System.getProperty("user.dir") + "/identifier.sqlite";
 
     public static ArrayList<User> loadUsers(){
 
@@ -34,14 +34,33 @@ public class UserRepo {
             stmt.close();
             con.close();
             return users;
-
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
-
     }
 
-    //TODO Make a save method
+    public static boolean saveUser(User user) {
+        String insertUserQuery = "INSERT INTO Users (userName, password) VALUES (?, ?)";
+
+        try (Connection con = DriverManager.getConnection(connectionString)) {
+            System.out.println("Connected to database");
+
+            PreparedStatement pstmt = con.prepareStatement(insertUserQuery);
+
+            pstmt.setString(1, user.getUserName());
+            pstmt.setString(2, user.getPassword());
+
+            int affectedRows = pstmt.executeUpdate();
+
+            pstmt.close();
+            con.close();
+
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

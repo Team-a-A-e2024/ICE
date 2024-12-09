@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class SeedDB {
-    static String connectionString = "jdbc:sqlite:C:\\Users\\Alissa\\IdeaProjects\\ICE\\identifier.sqlite";
+    static String connectionString = "jdbc:sqlite:" + System.getProperty("user.dir") + "/identifier.sqlite";
 
     static String loadFullUser = "SELECT userName, password FROM Users";
 

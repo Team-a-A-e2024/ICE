@@ -12,6 +12,9 @@ public class Product {
         this.calories = calories;
     }
 
+    public Product(String trim) {
+    }
+
     public String getName() {
         return name;
     }

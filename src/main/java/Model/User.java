@@ -23,8 +23,6 @@ public class User {
         this.dishes = new ArrayList<>();
     }
 
-
-
     public String getUserName() {
         return userName;
     }
@@ -64,6 +62,4 @@ public class User {
     public void addDishes(Dish dish) {
         dishes.add(dish);
     }
-
-
 }

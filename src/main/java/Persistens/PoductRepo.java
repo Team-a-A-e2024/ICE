@@ -13,7 +13,7 @@ public class PoductRepo {
     static ArrayList<Product> products = new ArrayList<>();
 
     //Test if we are connected to database
-    static String connectionString = "jdbc:sqlite:C:\\Users\\Alissa\\IdeaProjects\\ICE\\identifier.sqlite";
+    static String connectionString = "jdbc:sqlite:" + System.getProperty("user.dir") + "/identifier.sqlite";
 
     public static ArrayList<Product> loadProducts() {
 
@@ -28,7 +28,6 @@ public class PoductRepo {
                 String name = rs.getString("name");
                 double weight = rs.getFloat("weight");
                 int calories = rs.getInt("calories");
-
 
                 Product product = new Product(name, weight, calories);
                 products.add(product);
