@@ -48,6 +48,18 @@ public class Dish {
         this.products = products;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder productNames = new StringBuilder();
+        for (Product product : products) {
+            productNames.append(product.toString()).append(", ");
+        }
+        // Remove trailing comma and space
+        if (productNames.length() > 0) {
+            productNames.setLength(productNames.length() - 2);
+        }
+        return "Dish: name" + name + " " + "dishWeight" + dishWeight + "dishCalories" +  dishCalories + productNames;
 
+    }
 
 }

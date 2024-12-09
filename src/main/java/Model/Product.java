@@ -39,7 +39,10 @@ public class Product {
         this.calories = calories;
     }
 
-
+    @Override
+    public String toString() {
+        return name;
+    }
 
 
 
