@@ -8,11 +8,8 @@ public class AppService {
         products = new ArrayList<>();
     }
 
-    public void addProduct(String product) {
-        products.add(product);
-    }
-
     public List<String> searchProducts(String searchTerm) {
+
         List<String> results = new ArrayList<>();
         for (String product : products) {
             if (product.toLowerCase().contains(searchTerm.toLowerCase())) {
