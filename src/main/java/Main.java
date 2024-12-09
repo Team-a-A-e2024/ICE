@@ -6,7 +6,7 @@ public class Main {
 
         Authorization auth = new Authorization();
         //auth.login("Alissa","123456");
-
-        SeedDB.createDB();
+        auth.signUp("Alissa", "123");
+        //SeedDB.createDB();
     }
 }
