@@ -13,7 +13,6 @@ import javax.imageio.ImageIO;
 import util.TextUI;
 
 public class Barscanner {
-
     //code source: https://www.geeksforgeeks.org/how-to-generate-and-read-qr-code-with-java-using-zxing-library/
     //minorly modified for usage
     // Function to read the QR file
@@ -38,5 +37,4 @@ public class Barscanner {
         }
         return null;
     }
-
 }
