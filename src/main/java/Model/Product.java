@@ -5,6 +5,7 @@ public class Product {
     private String name;
     private double weight;
     private int calories;
+    //TODO add attributtes such as barcode, carbs, sugar, protien, fat (Also in DB)
 
     public Product(String name, double weight, int calories) {
         this.name = name;
