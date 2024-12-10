@@ -1,4 +1,4 @@
-import Persistens.SeedDB;
+import Util.Authorization;
 
 public class Main {
     public static void main(String[] args) {
