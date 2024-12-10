@@ -35,7 +35,6 @@ public class ApiService {
         try {
             return URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
         } catch (UnsupportedEncodingException e) {
-            //todo: not this
             TextUI.displayMsg(e.getMessage());
         }
         return "";
