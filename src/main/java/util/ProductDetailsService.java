@@ -1,7 +1,6 @@
 package util;
 
 import Model.Product;
-import Persistens.PoductRepo;
 import pl.coderion.model.ProductResponse;
 import pl.coderion.service.OpenFoodFactsWrapper;
 import pl.coderion.service.impl.OpenFoodFactsWrapperImpl;
@@ -10,24 +9,12 @@ import java.util.ArrayList;
 
 public class ProductDetailsService {
     private static OpenFoodFactsWrapper wrapper = new OpenFoodFactsWrapperImpl();
-    private static ArrayList<Product> products;
+    private static ArrayList<Product> products = new ArrayList<>();
 
     private ProductDetailsService() {}
 
-    static {
-        products = PoductRepo.loadProducts();
-    }
-
-    public static OpenFoodFactsWrapper getWrapper() {
-        return wrapper;
-    }
-
     public static void setWrapper(OpenFoodFactsWrapper wrapper) {
         ProductDetailsService.wrapper = wrapper;
-    }
-
-    public static ArrayList<Product> getProducts() {
-        return products;
     }
 
     public static void setProducts(ArrayList<Product> products) {
