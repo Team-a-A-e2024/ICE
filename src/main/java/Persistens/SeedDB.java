@@ -19,7 +19,7 @@ public class SeedDB {
                 // Create Users Table
                 stmt.execute("""
                             CREATE TABLE IF NOT EXISTS Users (
-                                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                userId INTEGER PRIMARY KEY AUTOINCREMENT,
                                 userName VARCHAR(50),
                                 password VARCHAR(50),
                                 allergens VARCHAR(50),
@@ -45,7 +45,23 @@ public class SeedDB {
                                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                                 name VARCHAR(50),
                                 weight FLOAT(10),
-                                calories INT(10)
+                                calories INT(10)                               
+                            );
+                        """);
+
+                stmt.execute("""
+                            CREATE TABLE IF NOT EXISTS UserDishes (
+                                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                userDish VARCHAR(50)
+                                userId int FOREIGN KEY REFERENCES User(userId)
+                            );
+                        """);
+
+                stmt.execute("""
+                            CREATE TABLE IF NOT EXISTS UserProducts (
+                                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                userproduct VARCHAR(50)
+                                userId int FOREIGN KEY REFERENCES User(userId)
                             );
                         """);
 

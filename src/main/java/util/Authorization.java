@@ -34,7 +34,6 @@ public class Authorization {
 
     }
 
-
     public boolean signUp(String userName, String password) {
 
             ArrayList<User> users = UserRepo.loadUsers();
