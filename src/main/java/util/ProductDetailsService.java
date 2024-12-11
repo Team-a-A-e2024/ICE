@@ -1,6 +1,7 @@
 package util;
 
 import Model.Product;
+import Persistens.ProductRepo;
 import pl.coderion.model.ProductResponse;
 import pl.coderion.service.OpenFoodFactsWrapper;
 import pl.coderion.service.impl.OpenFoodFactsWrapperImpl;
@@ -41,7 +42,8 @@ public class ProductDetailsService {
         product = getOpenFoodFactsProductByCode(code);
 
         if (product != null) {
-            // TODO: Save product to database.
+            ProductRepo.saveProduct(product);
+            products = ProductRepo.loadProducts();
         }
 
         return product;
@@ -75,9 +77,12 @@ public class ProductDetailsService {
     ---------------------------------------------------------------------
      */
     private static Product getLocalProductByCode(String code) {
-        assert products != null;
+        if (products.isEmpty()) {
+            products = ProductRepo.loadProducts();
+        }
+
         return products.stream()
-                .filter(x -> x.getName().equals(code)) //TODO: Change to getCode()
+                .filter(x -> x.getBarcode().equals(code))
                 .findFirst()
                 .orElse(null);
     }
@@ -89,13 +94,20 @@ public class ProductDetailsService {
      */
     private static Product productMapper(pl.coderion.model.Product product) {
         String productName = product.getProductName();
-        double productWeight = Double.parseDouble(product.getProductQuantity());
-        int productCalories = product.getNutriments().getEnergyKcalServing();
 
         if (productName == null || productName.isEmpty() || productName.isBlank()) {
             return null;
         }
 
-        return new Product(productName, productWeight, productCalories);
+        return new Product(
+                product.getProductName(),
+                product.getCode(),
+                Double.parseDouble(product.getProductQuantity()),
+                product.getNutriments().getEnergyKcalServing(),
+                (int)product.getNutriments().getCarbohydratesServing(),
+                (int)product.getNutriments().getSugarsServing(),
+                (int)product.getNutriments().getProteinsServing(),
+                (int)product.getNutriments().getFatServing()
+        );
     }
 }
