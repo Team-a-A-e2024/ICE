@@ -21,22 +21,24 @@ public class ProductDetailsService {
         ProductDetailsService.products = products;
     }
 
+    /*
+    ------------------------------ SUMMARY ------------------------------
+    Retrieves a product object or a null object.
+
+    The method will try to find a matching product in memory - If
+    unsuccessful, it will try to find a matching product from
+    OpenFoodFacts. If neither sources can provide a product, it will
+    return null.
+    ---------------------------------------------------------------------
+     */
     public static Product getProductByCode(String code) {
         Product product = getCachedProductByCode(code);
-        ProductResponse productResponse;
 
         if (product != null) {
           return product;
         }
 
-        productResponse = wrapper.fetchProductByCode(code);
-
-        if (!productResponse.isStatus()) {
-            TextUI.displayMsg("No products with code '" + code + "' was found.");
-            return null;
-        }
-
-        product = productMapper(productResponse.getProduct());
+        product = getOpenFoodFactsProductByCode(code);
 
         if (product != null) {
             products.add(product);
@@ -46,6 +48,33 @@ public class ProductDetailsService {
         return product;
     }
 
+    /*
+    ------------------------------ SUMMARY ------------------------------
+    Retrieves a product object or a null object.
+
+    The method will try to find a matching product from OpenFoodFacts.
+    If the wrapper fails to provide a product, it will return null.
+    ---------------------------------------------------------------------
+     */
+    private static Product getOpenFoodFactsProductByCode(String code) {
+        ProductResponse productResponse = wrapper.fetchProductByCode(code);
+
+        if (!productResponse.isStatus()) {
+            TextUI.displayMsg("No products with code '" + code + "' was found.");
+            return null;
+        }
+
+        return productMapper(productResponse.getProduct());
+    }
+
+    /*
+    ------------------------------ SUMMARY ------------------------------
+    Retrieves a product object or a null object.
+
+    The method will try to find a matching product from memory.
+    If the stream fails to provide a product, it will return null.
+    ---------------------------------------------------------------------
+     */
     private static Product getCachedProductByCode(String code) {
         return products.stream()
                 .filter(x -> x.getName().equals(code)) //TODO: Change to getCode()
@@ -53,6 +82,11 @@ public class ProductDetailsService {
                 .orElse(null);
     }
 
+    /*
+    ------------------------------ SUMMARY ------------------------------
+    Maps a OpenFoodFact product to our Product model.
+    ---------------------------------------------------------------------
+     */
     private static Product productMapper(pl.coderion.model.Product product) {
         String productName = product.getProductName();
         double productWeight = Double.parseDouble(product.getProductQuantity());
