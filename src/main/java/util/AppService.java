@@ -1,7 +1,9 @@
+package util;
+
 import Model.Product;
 import Model.User;
 import Persistens.PoductRepo;
-import util.TextUI;
+
 import java.util.ArrayList;
 import java.util.List;
 

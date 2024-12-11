@@ -1,7 +1,8 @@
+package util;
+
 import Model.User;
 import Persistens.UserRepo;
 
-import java.sql.*;
 import java.util.ArrayList;
 
 public class Authorization {

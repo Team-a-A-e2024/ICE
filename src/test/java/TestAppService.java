@@ -2,6 +2,7 @@ import Model.Product;
 import Persistens.PoductRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import util.AppService;
 import util.TextUI;
 import java.util.ArrayList;
 import java.util.Scanner;
