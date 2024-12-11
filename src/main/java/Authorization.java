@@ -1,5 +1,6 @@
 import Model.User;
 import Persistens.UserRepo;
+import util.TextUI;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,21 +12,21 @@ public class Authorization {
         ArrayList<User> users = UserRepo.loadUsers();
 
         if (users.isEmpty()) {
-            System.out.println("Login failed: No users found in the database.");
+            TextUI.displayMsg("Login failed: No users found in the database.");
             return false;
         }
 
         for (User u : users) {
             if (u.getUserName().equals(userName)) {
                 if (u.getPassword().equals(password)) {
-                    System.out.println("Login successful");
+                    TextUI.displayMsg("Login successful");
                     return true;
                 } else {
-                    System.out.println("password does not match");
+                    TextUI.displayMsg("password does not match");
                     return false;
                 }
             } else {
-                System.out.println("Username does not match");
+                TextUI.displayMsg("Username does not match");
                 return false;
             }
         }
@@ -42,20 +43,20 @@ public class Authorization {
             if (users.isEmpty()) {
                 User newUser = new User(userName, password);
                 UserRepo.saveUser(newUser);
-                System.out.println("Signup successful");
+                TextUI.displayMsg("Signup successful");
                 return true;
             }
             else{
                 for(User u : users){
                     if(u.getUserName().equals(userName)){
-                        System.out.println("Username already exists");
+                        TextUI.displayMsg("Username already exists");
                         return false;
                     }
                     else{
                         User newUser = new User(userName, password);
 
                         UserRepo.saveUser(newUser);
-                        System.out.println("Signup successful");
+                        TextUI.displayMsg("Signup successful");
                         return true;
                     }
                 }
