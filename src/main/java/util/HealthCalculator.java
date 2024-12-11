@@ -6,6 +6,9 @@ public class HealthCalculator {
 
     //weight is in KG and height is in CM
     public static float bmiCalculator(float weight, float height){
-        return (weight / height / height) * 10000;
+        if (height > 0 || weight > 0){
+            return (weight / height / height) * 10000;
+        }
+        return 0;
     }
 }
