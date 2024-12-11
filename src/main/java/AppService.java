@@ -9,12 +9,13 @@ public class AppService {
     private List<String> products;
     User user;
     private PoductRepo poductRepo;
+    private ArrayList<Product> productList;
 
     public void setProductList(ArrayList<Product> productList) {
         this.productList = productList;
     }
 
-    private ArrayList<Product> productList;
+
 
     public AppService(PoductRepo poductRepo) {
         this.poductRepo = poductRepo;

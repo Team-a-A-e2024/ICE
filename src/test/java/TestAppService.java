@@ -18,8 +18,6 @@ void setup(){
     mockScanner = mock(Scanner.class);
     TextUI.setScanner(mockScanner);
     mockPoductRepo = mock(PoductRepo.class);
-
-
 }
 @Test
     void testAppService() {
@@ -35,7 +33,6 @@ void setup(){
     ArrayList<Product> actual = appservice.searchProducts();
     //assert
     assertEquals(product.getName(), actual.get(0).getName());
-
     }
 
 @Test
@@ -52,8 +49,8 @@ void testShortCutSearching() {
     ArrayList<Product> actual = appservice.searchProducts();
     //assert
     assertEquals(product.getName(), actual.get(0).getName());
+    }
 
-}
 @Test
     void testProductNotFound() {
 
@@ -68,8 +65,8 @@ void testShortCutSearching() {
         ArrayList<Product> actual = appservice.searchProducts();
         //assert
         assertEquals(product.getName(), actual.get(0).getName());
-
     }
+
     @Test
     void testClosingSearching() {
         when(mockScanner.nextLine()).thenReturn("x");
@@ -79,7 +76,6 @@ void testShortCutSearching() {
         ArrayList<Product> actual = appservice.searchProducts();
         //assert
         assertEquals(0, actual.size());
-
     }
 }
 
