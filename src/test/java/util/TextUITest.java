@@ -156,7 +156,7 @@ class TextUITest {
         when(mockScanner.nextLine()).thenReturn(expected);
 
         // Act
-        String actual = TextUI.promptText(message);
+        String actual = TextUI.promptText(option, 1, message);
 
         // Assert
         assertEquals(expected, actual);

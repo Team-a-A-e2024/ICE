@@ -1,11 +1,15 @@
 package Util;
 
 import Model.User;
+import barscanner.Barscanner;
 import util.TextUI;
+
 import java.util.Set;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
+
+import static barscanner.Barscanner.readCodeFromPath;
 import static java.lang.System.exit;
 
 public class Menu {
@@ -45,17 +49,13 @@ public class Menu {
     public static void displayMenu() {
         List<String> options = new ArrayList();
         options.add("Search products");
-        options.add("See saved products");
-        options.add("See saved recipes");
+        options.add("Saved products");
+        options.add("Saved recipes");
         options.add("Scan barcode");
         options.add("Exit");
         options = TextUI.promptChoice(options, 1, "What would you like to do?");
         Set<Menu> result = new HashSet<>();
         switch (options.get(0)) {
-            case "Scan barcode":
-                //result = searchMedia();
-                //selectTitle(result);
-                break;
             case "Search products":
                 //result = searchCategory();
                 //selectTitle(result);
@@ -66,11 +66,45 @@ public class Menu {
             case "See saved recipes":
                 //missing function. in user?
                 break;
+            case "Scan barcode":
+                barcodeMenu();
+                break;
             case "Exit":
                 //saveWatchedAndSavedMedia();
                 exit(0);
                 break;
         }
         displayMenu();
+    }
+
+    public static void barcodeMenu() {
+        List<String> options = new ArrayList();
+        options.add("Scan barcode");
+        options.add("Enter barcode manually");
+        options.add("Return to main menu");
+        TextUI.promptChoice(options, 1, "Please choose an option: ");
+        switch (options.get(0)) {
+            case "Scan barcode":
+                String filePath = TextUI.promptText("Please enter the barcode you wish to scan: ");
+                readCodeFromPath(filePath);
+                //Todo: Parse String to get a product
+                break;
+            case "Enter barcode manually":
+                String typeBarcode = TextUI.promptText("Please type the barcode number you wish to scan: ");
+                //Todo: Parse String to get a product
+                break;
+            case "Return to main menu":
+                return;
+            default:
+                TextUI.displayMsg("Please choose a valid option");
+                barcodeMenu();
+                break;
+        }
+    }
+    public static void searchProductMenu() {
+        //Todo: enter searchProduct function when it is ready by Fred.
+    }
+    public static void searchDishMenu() {
+        //Todo: Enter searchDish function when it is ready.
     }
 }
