@@ -26,7 +26,6 @@ public class DishProductRepo {
         }
     }
 
-
     public static ArrayList<Product> getProductsForDish(int dishId) {
         ArrayList<Product> products = new ArrayList<>();
         String query = "SELECT Products.* FROM DishProducts INNER JOIN Products ON DishProducts.productId = Products.id WHERE DishProducts.dishId = ?";
@@ -54,10 +53,6 @@ public class DishProductRepo {
         }
         return products;
     }
-
-
-
-
 }
 
 
