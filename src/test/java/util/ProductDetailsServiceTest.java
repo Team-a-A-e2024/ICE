@@ -77,7 +77,7 @@ class ProductDetailsServiceTest {
     }
 
     @Test
-    void when_searching_for_invalid_() {
+    void when_searching_for_invalid_code_return_null() {
         // Arrange
         String code = "xyz";
         ProductResponse productResponse = new ProductResponse();
