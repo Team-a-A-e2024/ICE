@@ -1,7 +1,6 @@
 package util;
 
 import Model.Product;
-import Persistens.PoductRepo;
 import pl.coderion.model.ProductResponse;
 import pl.coderion.service.OpenFoodFactsWrapper;
 import pl.coderion.service.impl.OpenFoodFactsWrapperImpl;
@@ -10,11 +9,16 @@ import java.util.ArrayList;
 
 public class ProductDetailsService {
     private static OpenFoodFactsWrapper wrapper = new OpenFoodFactsWrapperImpl();
+    private static ArrayList<Product> products = new ArrayList<>();
 
     private ProductDetailsService() {}
 
     public static void setWrapper(OpenFoodFactsWrapper wrapper) {
         ProductDetailsService.wrapper = wrapper;
+    }
+
+    public static void setProducts(ArrayList<Product> products) {
+        ProductDetailsService.products = products;
     }
 
     /*
@@ -71,8 +75,6 @@ public class ProductDetailsService {
     ---------------------------------------------------------------------
      */
     private static Product getLocalProductByCode(String code) {
-        ArrayList<Product> products = PoductRepo.loadProducts();
-
         assert products != null;
         return products.stream()
                 .filter(x -> x.getName().equals(code)) //TODO: Change to getCode()

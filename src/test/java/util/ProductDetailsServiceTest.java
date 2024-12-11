@@ -1,6 +1,5 @@
 package util;
 
-import Persistens.PoductRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -15,18 +14,16 @@ import static org.mockito.Mockito.when;
 
 class ProductDetailsServiceTest {
     private OpenFoodFactsWrapper mockWrapper;
-    private PoductRepo mockProductRepo;
 
     @BeforeEach
     public void setUp() {
         mockWrapper = Mockito.mock(OpenFoodFactsWrapper.class);
         ProductDetailsService.setWrapper(mockWrapper);
-        mockProductRepo = Mockito.mock(PoductRepo.class);
     }
 
     @Disabled //TODO: Enable when passing
     @Test
-    void getProductByCode() {
+    void when_searching_for_valid_code_then_return_openFoodFact_product() {
         // Arrange
         String code = "54491472";
         ProductResponse productResponse = new ProductResponse();
@@ -44,7 +41,7 @@ class ProductDetailsServiceTest {
 
     @Disabled //TODO: Enable when passing
     @Test
-    void getProductByCodeFromDatabase() {
+    void when_searching_for_valid_code_then_return_database_product() {
         // Arrange
         String name = "Coca Cola 500ml";
         String code = "54491472";
@@ -53,7 +50,7 @@ class ProductDetailsServiceTest {
 
         ArrayList<Model.Product> products = new ArrayList<>();
         products.add(new Model.Product(name, weight, calories));
-        when(mockProductRepo.loadProducts()).thenReturn(products);
+        //when(mockProductRepo.loadProducts()).thenReturn(products);
 
         // Act
         Model.Product actual = ProductDetailsService.getProductByCode(code);
@@ -63,7 +60,7 @@ class ProductDetailsServiceTest {
     }
 
     @Test
-    void getProductByCodeInvalidCode() {
+    void when_searching_for_invalid_() {
         // Arrange
         String code = "xyz";
         ProductResponse productResponse = new ProductResponse();
