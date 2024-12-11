@@ -1,11 +1,13 @@
 package Persistens;
-
 import Model.Dish;
 import Model.Product;
 import Model.User;
-
 import java.sql.*;
 import java.util.ArrayList;
+
+import static Persistens.DishProductRepo.addProductToDish;
+import static Persistens.ProductRepo.saveProduct;
+
 
 public class DishRepo {
 
@@ -17,103 +19,116 @@ public class DishRepo {
     static String connectionString = "jdbc:sqlite:" + System.getProperty("user.dir") + "/identifier.sqlite";
 
     public static ArrayList<Dish> loadDish() {
+        ArrayList<Dish> dishes = new ArrayList<>();
+
+        String loadDishQuery = "SELECT * FROM Dishes";
 
         try (Connection con = DriverManager.getConnection(connectionString)) {
             System.out.println("Connected to database");
 
-            // The Statement is used to send SQL queries to the database. (SELECT, INSERT etc.)
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(loadDish);
+            ResultSet rs = stmt.executeQuery(loadDishQuery);
 
             while (rs.next()) {
+                int dishId = rs.getInt("id");
                 String name = rs.getString("name");
-                double dishWeight = rs.getFloat("dishWeight");
-                int dishCalories = rs.getInt("DishCalories");
-                String product = rs.getString("products"); //
+                double dishWeight = rs.getDouble("dishWeight");
+                int dishCalories = rs.getInt("dishCalorie");
 
-                ArrayList<Product> products = new ArrayList<>();
-                for (String p : product.split(",")) {
-                    products.add(new Product(p.trim())); // Create a new Product object
-                }
+                // Hent produkter for denne dish
+                ArrayList<Product> products = DishProductRepo.getProductsForDish(dishId);
 
+                // Opret Dish-objekt
                 Dish dish = new Dish(name, dishWeight, dishCalories, products);
                 dishes.add(dish);
             }
+
             stmt.close();
-            con.close();
-            return dishes;
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return dishes;
     }
 
+
     public static boolean saveDish(Dish dish) {
-        String insertUserQuery = "INSERT INTO Dishes (name, dishweight, dishCalories, products) VALUES (?, ?, ?, ?)";
+        String insertDishQuery = "INSERT INTO Dishes (name, dishWeight, dishCalorie) VALUES (?, ?, ?)";
+        String insertDishProductQuery = "INSERT INTO DishProducts (dishId, productId) VALUES (?, ?)";
 
         try (Connection con = DriverManager.getConnection(connectionString)) {
             System.out.println("Connected to database");
 
+            // Check if the dish already exists
             ArrayList<Dish> dishes = loadDish();
-            if(dishes.isEmpty()) {
-                System.out.println("Dish list is empty");
-
-                PreparedStatement pstmt = con.prepareStatement(insertUserQuery);
-                StringBuilder tempProducts = new StringBuilder(); //A string you can add to (Append)
-
-                for(int i = 0; i < dish.getProducts().size(); i++) {
-                    tempProducts.append(dish.getProducts().get(i).toString());
-                    tempProducts.append(", ");
-
+            for (Dish d : dishes) {
+                if (d.getName().equalsIgnoreCase(dish.getName())) {
+                    System.out.println("Dish already exists");
+                    return false;
                 }
-
-                pstmt.setString(1, dish.getName());
-                pstmt.setDouble(2, dish.getDishWeight());
-                pstmt.setInt(3, dish.getDishCalories());
-                pstmt.setString(4, tempProducts.toString());
-
-                int affectedRows = pstmt.executeUpdate();
-
-                pstmt.close();
-                con.close();
-
-                return affectedRows > 0;
             }
-            else{
-                for(Dish d : dishes) {
-                    if(d.getName().equals(dish.getName())) {
-                        System.out.println("Dish already exists");
-                        con.close();
-                    }
-                    else{
-                        PreparedStatement pstmt = con.prepareStatement(insertUserQuery);
-                        StringBuilder tempProducts = new StringBuilder(); //A string you can add to (Append)
 
-                        for(int i = 0; i < dish.getProducts().size(); i++) {
-                            tempProducts.append(dish.getProducts().get(i).toString());
-                            tempProducts.append(",");
+            // Insert the dish
+            PreparedStatement dishStmt = con.prepareStatement(insertDishQuery, Statement.RETURN_GENERATED_KEYS);
+            dishStmt.setString(1, dish.getName());
+            dishStmt.setDouble(2, dish.getDishWeight());
+            dishStmt.setInt(3, dish.getDishCalories());
 
-                        }
+            int affectedRows = dishStmt.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Failed to save the dish.");
+            }
 
-                        pstmt.setString(1, dish.getName());
-                        pstmt.setDouble(2, dish.getDishWeight());
-                        pstmt.setInt(3, dish.getDishCalories());
-                        pstmt.setString(4, tempProducts.toString());
+            // Get the dish ID
+            ResultSet generatedKeys = dishStmt.getGeneratedKeys();
+            if (!generatedKeys.next()) {
+                throw new SQLException("Failed to retrieve dish ID.");
+            }
+            int dishId = generatedKeys.getInt(1);
+            dishStmt.close();
 
-                        int affectedRows = pstmt.executeUpdate();
+            // Save products and link them to the dish
+            for (Product product : dish.getProducts()) {
+                // Save the product if it doesn't exist
+                saveProduct(product);
 
-                        pstmt.close();
-                        con.close();
+                // Link product to the dish
+                addProductToDish(dishId, product.getId());
+            }
 
-                        return affectedRows > 0;
-                    }
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+
+    public static void addDishWithProducts(Dish dish, ArrayList<Integer> productIds) {
+        String insertDish = "INSERT INTO Dishes (name, dishWeight, dishCalorie) VALUES (?, ?, ?)";
+
+        try (Connection con = DriverManager.getConnection(connectionString)) {
+            // Insert the dish
+            PreparedStatement pstmt = con.prepareStatement(insertDish, Statement.RETURN_GENERATED_KEYS);
+            pstmt.setString(1, dish.getName());
+            pstmt.setDouble(2, dish.getDishWeight());
+            pstmt.setInt(3, dish.getDishCalories());
+            pstmt.executeUpdate();
+
+            // Get the generated dish ID
+            ResultSet rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
+                int dishId = rs.getInt(1);
+
+                // Add products to the dish
+                for (int productId : productIds) {
+                    addProductToDish(dishId, productId);
                 }
-
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
     }
+
 }

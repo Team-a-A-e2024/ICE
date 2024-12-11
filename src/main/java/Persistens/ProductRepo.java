@@ -26,10 +26,15 @@ public class ProductRepo {
 
             while (rs.next()) {
                 String name = rs.getString("name");
+                String barcode = rs.getString("barcode");
                 double weight = rs.getFloat("weight");
-                int calories = rs.getInt("calories");
+                int calories = rs.getInt("calorie");
+                int carbs = rs.getInt("carb");
+                int sugar = rs.getInt("sugar");
+                int protein = rs.getInt("protein");
+                int fat = rs.getInt("fat");
 
-                Product product = new Product(name, weight, calories);
+                Product product = new Product(name, barcode, weight, calories, carbs, sugar, protein, fat);
                 products.add(product);
             }
             stmt.close();
@@ -45,48 +50,34 @@ public class ProductRepo {
     }
 
     public static boolean saveProduct(Product product) {
-        String insertUserQuery = "INSERT INTO Products (name, weight, calories) VALUES (?, ?, ?)";
+        String insertProductQuery = "INSERT INTO Products (name, barcode, weight, calorie, carb, sugar, protein, fat) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection con = DriverManager.getConnection(connectionString)) {
-            System.out.println("Connected to database");
+            PreparedStatement pstmt = con.prepareStatement(insertProductQuery, Statement.RETURN_GENERATED_KEYS);
+            pstmt.setString(1, product.getName());
+            pstmt.setString(2, product.getBarcode());
+            pstmt.setDouble(3, product.getWeight());
+            pstmt.setInt(4, product.getCalorie());
+            pstmt.setInt(5, product.getCarb());
+            pstmt.setInt(6, product.getSugar());
+            pstmt.setInt(7, product.getProtein());
+            pstmt.setInt(8, product.getFat());
 
-            ArrayList<Product> products = loadProducts();
-            if(products.isEmpty()) {
-                System.out.println("Product list is empty");
-                PreparedStatement pstmt = con.prepareStatement(insertUserQuery);
-
-                pstmt.setString(1, product.getName());
-                pstmt.setDouble(2, product.getWeight());
-                pstmt.setInt(3, product.getCalories());
-                int affectedRows = pstmt.executeUpdate();
-
-                pstmt.close();
-                con.close();
-                return affectedRows > 0;
-            }
-            else{
-                for(Product p : products) {
-                    if(p.getName().equals(product.getName())) {
-                        System.out.println("Product already exists");
-                        con.close();
-                    }
-                    else {
-                        PreparedStatement pstmt = con.prepareStatement(insertUserQuery);
-
-                        pstmt.setString(1, product.getName());
-                        pstmt.setDouble(2, product.getWeight());
-                        pstmt.setInt(3, product.getCalories());
-                        int affectedRows = pstmt.executeUpdate();
-
-                        pstmt.close();
-                        con.close();
-                        return affectedRows > 0;
-                    }
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows > 0) {
+                ResultSet generatedKeys = pstmt.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    product.setId(generatedKeys.getInt(1)); // Sæt det genererede ID i produktet
                 }
             }
+            pstmt.close();
+
+            return affectedRows > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return false;
     }
+
 }
