@@ -1,10 +1,10 @@
 package Persistens;
 import Model.Product;
-import Model.User;
+
 import java.sql.*;
 import java.util.ArrayList;
 
-public class PoductRepo {
+public class ProductRepo {
 
 
 

@@ -1,6 +1,6 @@
 import Model.Product;
 import Model.User;
-import Persistens.PoductRepo;
+import Persistens.ProductRepo;
 import util.TextUI;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,15 +8,15 @@ import java.util.List;
 public class AppService {
     private List<String> products;
     User user;
-    private PoductRepo poductRepo;
+    private ProductRepo productRepo;
     private ArrayList<Product> productList;
 
     public void setProductList(ArrayList<Product> productList) {
         this.productList = productList;
     }
 
-    public AppService(PoductRepo poductRepo) {
-        this.poductRepo = poductRepo;
+    public AppService(ProductRepo productRepo) {
+        this.productRepo = productRepo;
         products = new ArrayList<>();
     }
 
