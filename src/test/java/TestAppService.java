@@ -78,6 +78,3 @@ void testShortCutSearching() {
         assertEquals(0, actual.size());
     }
 }
-
-
-
