@@ -1,5 +1,6 @@
 package util;
 
+import Persistens.PoductRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -14,11 +15,13 @@ import static org.mockito.Mockito.when;
 
 class ProductDetailsServiceTest {
     private OpenFoodFactsWrapper mockWrapper;
+    private PoductRepo mockProductRepo;
 
     @BeforeEach
     public void setUp() {
         mockWrapper = Mockito.mock(OpenFoodFactsWrapper.class);
         ProductDetailsService.setWrapper(mockWrapper);
+        mockProductRepo = Mockito.mock(PoductRepo.class);
     }
 
     @Disabled //TODO: Enable when passing
@@ -41,7 +44,7 @@ class ProductDetailsServiceTest {
 
     @Disabled //TODO: Enable when passing
     @Test
-    void getProductByCodeCached() {
+    void getProductByCodeFromDatabase() {
         // Arrange
         String name = "Coca Cola 500ml";
         String code = "54491472";
@@ -50,7 +53,7 @@ class ProductDetailsServiceTest {
 
         ArrayList<Model.Product> products = new ArrayList<>();
         products.add(new Model.Product(name, weight, calories));
-        ProductDetailsService.setProducts(products);
+        when(mockProductRepo.loadProducts()).thenReturn(products);
 
         // Act
         Model.Product actual = ProductDetailsService.getProductByCode(code);
@@ -71,6 +74,6 @@ class ProductDetailsServiceTest {
         Model.Product actual = ProductDetailsService.getProductByCode(code);
 
         // Assert
-        assertEquals(null, actual);
+        assertNull(actual);
     }
 }

@@ -1,6 +1,7 @@
 package util;
 
 import Model.Product;
+import Persistens.PoductRepo;
 import pl.coderion.model.ProductResponse;
 import pl.coderion.service.OpenFoodFactsWrapper;
 import pl.coderion.service.impl.OpenFoodFactsWrapperImpl;
@@ -9,7 +10,6 @@ import java.util.ArrayList;
 
 public class ProductDetailsService {
     private static OpenFoodFactsWrapper wrapper = new OpenFoodFactsWrapperImpl();
-    private static ArrayList<Product> products = new ArrayList<>();
 
     private ProductDetailsService() {}
 
@@ -17,22 +17,18 @@ public class ProductDetailsService {
         ProductDetailsService.wrapper = wrapper;
     }
 
-    public static void setProducts(ArrayList<Product> products) {
-        ProductDetailsService.products = products;
-    }
-
     /*
     ------------------------------ SUMMARY ------------------------------
     Retrieves a product object or a null object.
 
-    The method will try to find a matching product in memory - If
+    The method will try to find a matching product from database - If
     unsuccessful, it will try to find a matching product from
     OpenFoodFacts. If neither sources can provide a product, it will
     return null.
     ---------------------------------------------------------------------
      */
     public static Product getProductByCode(String code) {
-        Product product = getCachedProductByCode(code);
+        Product product = getLocalProductByCode(code);
 
         if (product != null) {
           return product;
@@ -41,7 +37,6 @@ public class ProductDetailsService {
         product = getOpenFoodFactsProductByCode(code);
 
         if (product != null) {
-            products.add(product);
             // TODO: Save product to database.
         }
 
@@ -71,11 +66,14 @@ public class ProductDetailsService {
     ------------------------------ SUMMARY ------------------------------
     Retrieves a product object or a null object.
 
-    The method will try to find a matching product from memory.
+    The method will try to find a matching product from database.
     If the stream fails to provide a product, it will return null.
     ---------------------------------------------------------------------
      */
-    private static Product getCachedProductByCode(String code) {
+    private static Product getLocalProductByCode(String code) {
+        ArrayList<Product> products = PoductRepo.loadProducts();
+
+        assert products != null;
         return products.stream()
                 .filter(x -> x.getName().equals(code)) //TODO: Change to getCode()
                 .findFirst()
