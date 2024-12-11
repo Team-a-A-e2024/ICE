@@ -19,12 +19,12 @@ public class SeedDB {
                 // Create Users Table
                 stmt.execute("""
                             CREATE TABLE IF NOT EXISTS Users (
-                                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                userId INTEGER PRIMARY KEY AUTOINCREMENT,
                                 userName VARCHAR(50),
                                 password VARCHAR(50),
-                                allergens VARCHAR(50),
-                                products VARCHAR(50),
-                                dishes VARCHAR(50)
+                                allergen VARCHAR(50),
+                                product VARCHAR(50),
+                                dish VARCHAR(50)
                             );
                         """);
 
@@ -34,8 +34,7 @@ public class SeedDB {
                                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                                 name VARCHAR(50),
                                 dishWeight FLOAT(10),
-                                dishCalories INT(10),
-                                products VARCHAR(50)
+                                dishCalorie INT(10)
                             );
                         """);
 
@@ -44,17 +43,31 @@ public class SeedDB {
                             CREATE TABLE IF NOT EXISTS Products (
                                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                                 name VARCHAR(50),
+                                barcode VARCHAR(50),
                                 weight FLOAT(10),
-                                calories INT(10)
+                                calorie INT(10),
+                                carb INT(10),
+                                sugar INT(10),
+                                protein INT(10),
+                                fat INT(10)
                             );
                         """);
 
+                //Junction Table to represent many-to-many relationship
+                stmt.execute("""
+                         CREATE TABLE IF NOT EXISTS DishProducts(
+                                dishId INTEGER,
+                                productId INTEGER,
+                                PRIMARY KEY(dishId, productId),
+                                FOREIGN KEY(dishId)REFERENCES Dishes(id)ON DELETE CASCADE,                    
+                                FOREIGN KEY(productId)REFERENCES Products(id)ON DELETE CASCADE
+                        );
+                        """);
                 System.out.println("Tables created successfully");
             } catch (SQLException e) {
                 System.out.println("Error: " + e.getMessage());
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
     }

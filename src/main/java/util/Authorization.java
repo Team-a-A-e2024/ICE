@@ -1,7 +1,8 @@
+package util;
+
 import Model.User;
 import Persistens.UserRepo;
 
-import java.sql.*;
 import java.util.ArrayList;
 
 public class Authorization {
@@ -32,7 +33,6 @@ public class Authorization {
         return false;
 
     }
-
 
     public boolean signUp(String userName, String password) {
 
