@@ -10,7 +10,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class ApiService {
+    //searches for a list of products through the openfoodfacts api
+    //page number is indexed at 1
+    //a page number higher than the amount of products returns an empty arraylist of products
     public static ArrayList<String> searchProduct(String searchString, int page) {
+        //api call
         String searchRequest = "https://world.openfoodfacts.net/api/v2/search?categories_tags_en=" + encodeValue(searchString) + "&fields=code&page_size=100&page="+page+"&sort_by=popularity_key&countries_tags_en=denmark";
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
@@ -20,9 +24,9 @@ public class ApiService {
         HttpResponse<String> response = client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
                 .join(); // Waits for the response
 
+        //converts response to a json format and gets the code value from each element in the product array
         JSONObject obj = new JSONObject(response.body());
         JSONArray arr = obj.getJSONArray("products");
-
         ArrayList<String> products = new ArrayList<>();
         for (int i = 0; i < arr.length(); i++)
         {
@@ -31,6 +35,7 @@ public class ApiService {
         return products;
     }
 
+    //is used to sanitize user input to be enterable into a url
     private static String encodeValue(String value) {
         try {
             return URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
