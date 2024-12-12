@@ -2,7 +2,6 @@ import Model.User;
 import Persistens.UserRepo;
 import util.TextUI;
 
-import java.sql.*;
 import java.util.ArrayList;
 
 public class Authorization {
@@ -22,45 +21,42 @@ public class Authorization {
                     TextUI.displayMsg("Login successful");
                     return true;
                 } else {
-                    TextUI.displayMsg("password does not match");
+                    TextUI.displayMsg("Password does not match");
                     return false;
                 }
-            } else {
-                TextUI.displayMsg("Username does not match");
-                return false;
             }
         }
+        TextUI.displayMsg("Username does not match");
         return false;
+
 
     }
 
 
     public boolean signUp(String userName, String password) {
 
-            ArrayList<User> users = UserRepo.loadUsers();
+        ArrayList<User> users = UserRepo.loadUsers();
 
-            assert users != null;
-            if (users.isEmpty()) {
-                User newUser = new User(userName, password);
-                UserRepo.saveUser(newUser);
-                TextUI.displayMsg("Signup successful");
-                return true;
-            }
-            else{
-                for(User u : users){
-                    if(u.getUserName().equals(userName)){
-                        TextUI.displayMsg("Username already exists");
-                        return false;
-                    }
-                    else{
-                        User newUser = new User(userName, password);
+        assert users != null;
+        if (users.isEmpty()) {
+            User newUser = new User(userName, password);
+            UserRepo.saveUser(newUser);
+            TextUI.displayMsg("Signup successful");
+            return true;
+        } else {
+            for (User u : users) {
+                if (u.getUserName().equals(userName)) {
+                    TextUI.displayMsg("Username already exists");
+                    return false;
+                } else {
+                    User newUser = new User(userName, password);
 
-                        UserRepo.saveUser(newUser);
-                        TextUI.displayMsg("Signup successful");
-                        return true;
-                    }
+                    UserRepo.saveUser(newUser);
+                    TextUI.displayMsg("Signup successful");
+                    return true;
                 }
             }
-            return false;
+        }
+        return false;
     }
 }
