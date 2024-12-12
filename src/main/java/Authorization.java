@@ -10,8 +10,8 @@ public class Authorization {
 
         ArrayList<User> users = UserRepo.loadUsers();
 
-        if (users.isEmpty()) {
-            TextUI.displayMsg("Login failed: No users found in the database.");
+        if (users == null || users.isEmpty()) {
+            TextUI.displayMsg("Invalid username or password");
             return false;
         }
 
@@ -21,42 +21,34 @@ public class Authorization {
                     TextUI.displayMsg("Login successful");
                     return true;
                 } else {
-                    TextUI.displayMsg("Password does not match");
+
+                    TextUI.displayMsg("Invalid username or password");
                     return false;
                 }
             }
         }
-        TextUI.displayMsg("Username does not match");
+        TextUI.displayMsg("Invalid username or password");
         return false;
-
-
     }
-
 
     public boolean signUp(String userName, String password) {
 
         ArrayList<User> users = UserRepo.loadUsers();
 
-        assert users != null;
-        if (users.isEmpty()) {
-            User newUser = new User(userName, password);
-            UserRepo.saveUser(newUser);
-            TextUI.displayMsg("Signup successful");
-            return true;
-        } else {
-            for (User u : users) {
-                if (u.getUserName().equals(userName)) {
-                    TextUI.displayMsg("Username already exists");
-                    return false;
-                } else {
-                    User newUser = new User(userName, password);
+        if (users == null) {
+            users = new ArrayList<>();
+        }
 
-                    UserRepo.saveUser(newUser);
-                    TextUI.displayMsg("Signup successful");
-                    return true;
-                }
+        for (User u : users) {
+            if (u.getUserName().equals(userName)) {
+                TextUI.displayMsg("Username already exists");
+                return false;
             }
         }
-        return false;
+
+        User newUser = new User(userName, password);
+        UserRepo.saveUser(newUser);
+        TextUI.displayMsg("Signup successful");
+        return true;
     }
 }
