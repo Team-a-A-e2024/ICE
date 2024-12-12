@@ -20,8 +20,9 @@ public class Barscanner {
     // Function to read the QR file
     public static String readCodeFromImage(BufferedImage image) {
         try {
+            //gets the barcode as a BinaryBitmap
             BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(image)));
-
+            //decodes the barcode
             Result result = new MultiFormatReader().decode(binaryBitmap);
 
             return result.getText();
@@ -32,6 +33,7 @@ public class Barscanner {
         return null;
     }
 
+    //gets image from a computer file path and runs it through the readCodeFromImage function
     public static String readCodeFromPath(String path){
         try {
             return readCodeFromImage(ImageIO.read(new FileInputStream(path)));
