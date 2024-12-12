@@ -35,8 +35,7 @@ public class ApiService {
         return products;
     }
 
-
-    //is used to sanitize user input to be enterable into a url
+    //is used to sanitize user input to be enterable into an url
     private static String encodeValue(String value) {
         try {
             return URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
