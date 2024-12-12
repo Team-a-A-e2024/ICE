@@ -1,7 +1,8 @@
 import Model.Product;
-import Persistens.PoductRepo;
+import Persistens.ProductRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import util.AppService;
 import util.TextUI;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -10,21 +11,21 @@ import static org.mockito.Mockito.*;
 
 class AppServiceTest {
     private Scanner mockScanner;
-    private PoductRepo mockPoductRepo;
+    private ProductRepo mockPoductRepo;
 
 @BeforeEach
 void setup(){
 
     mockScanner = mock(Scanner.class);
     TextUI.setScanner(mockScanner);
-    mockPoductRepo = mock(PoductRepo.class);
+    mockPoductRepo = mock(ProductRepo.class);
 }
 @Test
     void testAppService() {
 
     // arrange
     when(mockScanner.nextLine()).thenReturn("Coca-Cola");
-    Product product = new Product("Coca-Cola",330,120);
+    Product product = new Product("Coca-Cola","330",120,50,50,50,50,0);
     ArrayList<Product> nyCocaCola = new ArrayList<Product>();
     nyCocaCola.add(product);
     // act
@@ -40,7 +41,7 @@ void testShortCutSearching() {
 
     // arrange
     when(mockScanner.nextLine()).thenReturn("Coca");
-    Product product = new Product("Coca-Cola",330,120);
+    Product product = new Product("Coca-Cola","330",120,50,50,50,50,0);
     ArrayList<Product> nyCocaCola = new ArrayList<Product>();
     nyCocaCola.add(product);
     // act
@@ -56,7 +57,7 @@ void testShortCutSearching() {
 
         // arrange
         when(mockScanner.nextLine()).thenReturn("mælk", "Coca-Cola");
-        Product product = new Product("Coca-Cola",330,120);
+        Product product = new Product("Coca-Cola","330",120,50,50,50,50,0);
         ArrayList<Product> nyCocaCola = new ArrayList<Product>();
         nyCocaCola.add(product);
         // act

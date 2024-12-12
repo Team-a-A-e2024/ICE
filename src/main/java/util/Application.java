@@ -1,3 +1,5 @@
+package util;
+
 import pl.coderion.model.Ingredient;
 import pl.coderion.model.Nutriments;
 import pl.coderion.model.Product;

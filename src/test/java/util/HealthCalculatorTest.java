@@ -43,4 +43,30 @@ public class HealthCalculatorTest {
         // Assert
         assertEquals(actual,result);
     }
+    @Test
+    void bmiCalculatorTest4() {
+        // Arrange
+        float actual = 0f;
+        float weight = 10000;
+        float height = 0;
+
+        // Act
+        float result = HealthCalculator.bmiCalculator(weight,height);
+
+        // Assert
+        assertEquals(actual,result);
+    }
+    @Test
+    void bmiCalculatorTest5() {
+        // Arrange
+        float actual = 0;
+        float weight = 0;
+        float height = 55;
+
+        // Act
+        float result = HealthCalculator.bmiCalculator(weight,height);
+
+        // Assert
+        assertEquals(actual,result);
+    }
 }
