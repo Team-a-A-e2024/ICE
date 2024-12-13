@@ -35,11 +35,11 @@ public class DishRepo {
                 double dishWeight = rs.getDouble("dishWeight");
                 int dishCalories = rs.getInt("dishCalorie");
 
-                // Hent produkter for denne dish
+                // get Products for this object
                 ArrayList<Product> products = DishProductRepo.getProductsForDish(dishId);
 
-                // Opret Dish-objekt
-                Dish dish = new Dish(name, dishWeight, dishCalories, products);
+                // Create dish object
+                Dish dish = new Dish(dishId, name, dishWeight, dishCalories, products);
                 dishes.add(dish);
             }
 
@@ -50,7 +50,6 @@ public class DishRepo {
 
         return dishes;
     }
-
 
     public static boolean saveDish(Dish dish) {
         String insertDishQuery = "INSERT INTO Dishes (name, dishWeight, dishCalorie) VALUES (?, ?, ?)";

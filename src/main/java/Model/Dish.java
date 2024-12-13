@@ -6,6 +6,7 @@ import util.TextUI;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Dish {
     private int id;
@@ -13,6 +14,15 @@ public class Dish {
     private double dishWeight;
     private int dishCalories;
     List<Product> products;
+    public static ArrayList<Dish> loadedDishes = DishRepo.loadDish();
+
+    public Dish(int id, String name, double weight, int dishCalories, List<Product> products){
+        this.id = id;
+        this.name = name;
+        this.dishWeight = weight;
+        this.dishCalories = dishCalories;
+        this.products = products;
+    }
 
     public Dish(String name, double weight, int dishCalories, List<Product> products) {
         this.name = name;
@@ -20,6 +30,7 @@ public class Dish {
         this.dishCalories = dishCalories;
         this.products = products;
     }
+
 
     public String getName() {
         return name;
@@ -60,7 +71,6 @@ public class Dish {
 
     @Override
     public String toString() {
-        System.out.println("Debug: products size = " + products.size()); // Tjek listen
         StringBuilder productNames = new StringBuilder();
         for (Product product : products) {
             productNames.append(product.toString()).append(", ");
@@ -81,43 +91,64 @@ public class Dish {
     }
 
     public static void displayNutritionForSpecificDish() {
-        // Retrieve dishes
-        ArrayList<Dish> loadedDishes = DishRepo.loadDish();
-
         if (!loadedDishes.isEmpty()) {
-            System.out.println("Loaded dishes: " + loadedDishes.size());
+            // Display all dishes for the user to choose from
+            TextUI.displayMsg("Please choose a dish by entering the corresponding number:");
+            for (int i = 0; i < loadedDishes.size(); i++) {
+                System.out.println((i + 1) + ": " + loadedDishes.get(i).getName());
+            }
 
-            // Select the first dish for demonstration (or allow user input)
-            Dish selectedDish = loadedDishes.get(0);
-            int dishId = selectedDish.getId();
-            System.out.println("Debug: Selected dish = " + selectedDish.getName() + " with ID = " + dishId);
+            // Get user input
+            Scanner scanner = new Scanner(System.in);
+            int choice = -1;
+            while (choice < 1 || choice > loadedDishes.size()) {
+                TextUI.displayMsg("Enter a valid number between 1 and " + loadedDishes.size() + ":");
+                if (scanner.hasNextInt()) {
+                    choice = scanner.nextInt();
+                } else {
+                    scanner.next(); // Consume invalid input
+                }
+            }
 
-            // Retrieve products for the dish
-            ArrayList<Product> loadedProducts = DishProductRepo.getProductsForDish(dishId);
-            System.out.println("Debug: Loaded products for dish = " + loadedProducts.size());
+            Dish selectedDish = loadedDishes.get(choice - 1);
 
-            // Display products
+            // Retrieve and display products for the selected dish
+            ArrayList<Product> loadedProducts = DishProductRepo.getProductsForDish(selectedDish.getId());
+
             if (!loadedProducts.isEmpty()) {
                 TextUI.displayMsg("Products for dish " + selectedDish.getName() + ":");
-                for (Product product : loadedProducts) {
-                    System.out.println(product);
+                for (Product p : loadedProducts) {
+                    System.out.println(p);
                 }
             } else {
-                TextUI.displayMsg("No products found for dish " + selectedDish.getName());
+                TextUI.displayMsg("No products found for dish " + selectedDish.getName() + ".");
             }
         } else {
             TextUI.displayMsg("No dishes found.");
         }
     }
 
-
-    public void displayTotalNutritionForSpecificDish() { //set a users choice parameter
-        // Load all dishes
-        ArrayList<Dish> loadedDishes = DishRepo.loadDish();
-
+    public static void displayTotalNutritionForSpecificDish() {
         if (!loadedDishes.isEmpty()) {
-            // Choose a dish to calculate nutrition for (e.g., the first dish)
-            Dish selectedDish = loadedDishes.get(0); // Replace with user selection if needed
+            // Display all dishes for the user to choose from
+            TextUI.displayMsg("Please choose a dish by entering the corresponding number:");
+            for (int i = 0; i < loadedDishes.size(); i++) {
+                System.out.println((i + 1) + ": " + loadedDishes.get(i).getName());
+            }
+
+            // Get user input
+            Scanner scanner = new Scanner(System.in);
+            int choice = -1;
+            while (choice < 1 || choice > loadedDishes.size()) {
+                TextUI.displayMsg("Enter a valid number between 1 and " + loadedDishes.size() + ":");
+                if (scanner.hasNextInt()) {
+                    choice = scanner.nextInt();
+                } else {
+                    scanner.next(); // Consume invalid input
+                }
+            }
+
+            Dish selectedDish = loadedDishes.get(choice - 1);
             int dishId = selectedDish.getId();
 
             // Retrieve products for the selected dish
