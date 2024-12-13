@@ -1,7 +1,9 @@
 package Util;
 
+import Model.Product;
 import Model.User;
 import barscanner.Barscanner;
+import util.Authorization;
 import util.TextUI;
 
 import java.util.Set;
@@ -9,8 +11,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
 
+import static Persistens.ProductRepo.saveProduct;
 import static barscanner.Barscanner.readCodeFromPath;
 import static java.lang.System.exit;
+import static util.ApiService.searchProduct;
+import static util.AppService.searchProducts;
+import static util.ProductDetailsService.getProductByCode;
 
 public class Menu {
 
@@ -49,28 +55,22 @@ public class Menu {
     public static void displayMenu() {
         List<String> options = new ArrayList();
         options.add("Search products");
-        options.add("Saved products");
-        options.add("Saved recipes");
+        options.add("Saved dishes");
         options.add("Scan barcode");
         options.add("Exit");
         options = TextUI.promptChoice(options, 1, "What would you like to do?");
         Set<Menu> result = new HashSet<>();
         switch (options.get(0)) {
             case "Search products":
-                //result = searchCategory();
-                //selectTitle(result);
+                searchProductMenu();
                 break;
-            case "See saved products":
-                //missing function. in user?
-                break;
-            case "See saved recipes":
+            case "See saved dishes":
                 //missing function. in user?
                 break;
             case "Scan barcode":
                 barcodeMenu();
                 break;
             case "Exit":
-                //saveWatchedAndSavedMedia();
                 exit(0);
                 break;
         }
@@ -83,15 +83,18 @@ public class Menu {
         options.add("Enter barcode manually");
         options.add("Return to main menu");
         TextUI.promptChoice(options, 1, "Please choose an option: ");
+        Product product = null;
         switch (options.get(0)) {
             case "Scan barcode":
                 String filePath = TextUI.promptText("Please enter the barcode you wish to scan: ");
-                readCodeFromPath(filePath);
-                //Todo: Parse String to get a product
+                product = getProductByCode(readCodeFromPath(filePath));
+                getProductByCode(readCodeFromPath(filePath));
+                productMenu(product);
                 break;
             case "Enter barcode manually":
                 String typeBarcode = TextUI.promptText("Please type the barcode number you wish to scan: ");
-                //Todo: Parse String to get a product
+                product = getProductByCode(typeBarcode);
+                productMenu(product);
                 break;
             case "Return to main menu":
                 return;
@@ -101,10 +104,39 @@ public class Menu {
                 break;
         }
     }
+
     public static void searchProductMenu() {
-        //Todo: enter searchProduct function when it is ready by Fred.
+        searchProducts();
+        ArrayList<Product> searchProducts;
+        searchProducts = searchProducts();
+        for(Product product : searchProducts) {
+            TextUI.displayMsg("You have found: " + product.getName());
+        }
     }
-    public static void searchDishMenu() {
+
+    public static void seeDishMenu() {
         //Todo: Enter searchDish function when it is ready.
+    }
+
+    public static void productMenu(Product product) {
+        TextUI.displayMsg("You have scanned: " + product.getName());
+        List<String> options = new ArrayList();
+        options.add("Save product");
+        options.add("Save dish");
+        options.add("View info");
+        options.add("Exit");
+        TextUI.promptChoice(options, 1, "Please choose an option: ");
+        switch (options.get(0)) {
+            case "Save product":
+                saveProduct(product);
+                break;
+            case "Save dish":
+                //Todo: Make case for save product to a dish.
+            case "View info":
+                TextUI.displayMsg(product.toString());
+                break;
+            case "Exit":
+                return;
+        }
     }
 }

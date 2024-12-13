@@ -17,7 +17,7 @@ public class TextUI {
 
     // Gives the user an option to either press 'y' to continue or 'n' to return to message
     public static boolean promptBinary(String msg){
-        String input = promptText(msg);
+        String input = promptText(option, 1, msg);
         if(input.equalsIgnoreCase("Y")){
             return true;
         }
