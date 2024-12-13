@@ -50,9 +50,15 @@ public class Dish {
         this.dishCalories = dishCalories;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public void setProducts(List<Product> products) {
         this.products = products;
     }
+
+
 
     @Override
     public String toString() {
@@ -68,10 +74,6 @@ public class Dish {
         return "Dish: name " + name + " dishWeight " + dishWeight + " dishCalories " + dishCalories + " Products: [" + productNames + "]";
     }
 
-    public int getId() {
-        return id;
-    }
-
     public static void displayNutritionForAllDishes() {
         ArrayList<Dish> loadedDishes = DishRepo.loadDish();
         System.out.println("Loaded dishes:");
@@ -80,20 +82,36 @@ public class Dish {
         }
     }
 
-    public void displayNutritionForSpecificDish() {
-        //     Retrieve products for a specific dish
+    public static void displayNutritionForSpecificDish() {
+        // Retrieve dishes
         ArrayList<Dish> loadedDishes = DishRepo.loadDish();
 
         if (!loadedDishes.isEmpty()) {
-            int dishId = loadedDishes.get(0).getId(); // Assuming Dish has an `id` field
-            ArrayList<Product> loadedProducts = DishProductRepo.getProductsForDish(dishId);
-            TextUI.displayMsg("Products for dish " + loadedDishes.get(0).getName() + ":");
-            for (Product p : loadedProducts) {
-                System.out.println(p);
-            }
-        }
+            System.out.println("Loaded dishes: " + loadedDishes.size());
 
+            // Select the first dish for demonstration (or allow user input)
+            Dish selectedDish = loadedDishes.get(0);
+            int dishId = selectedDish.getId();
+            System.out.println("Debug: Selected dish = " + selectedDish.getName() + " with ID = " + dishId);
+
+            // Retrieve products for the dish
+            ArrayList<Product> loadedProducts = DishProductRepo.getProductsForDish(dishId);
+            System.out.println("Debug: Loaded products for dish = " + loadedProducts.size());
+
+            // Display products
+            if (!loadedProducts.isEmpty()) {
+                TextUI.displayMsg("Products for dish " + selectedDish.getName() + ":");
+                for (Product product : loadedProducts) {
+                    System.out.println(product);
+                }
+            } else {
+                TextUI.displayMsg("No products found for dish " + selectedDish.getName());
+            }
+        } else {
+            TextUI.displayMsg("No dishes found.");
+        }
     }
+
 
     public void displayTotalNutritionForSpecificDish() { //set a users choice parameter
         // Load all dishes

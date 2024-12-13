@@ -1,12 +1,11 @@
 package Persistens;
+
 import Model.Product;
 
 import java.sql.*;
 import java.util.ArrayList;
 
 public class ProductRepo {
-
-
 
     static String loadProduct = "SELECT * FROM Products";
 
@@ -41,8 +40,7 @@ public class ProductRepo {
             con.close();
             return products;
 
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return products;
