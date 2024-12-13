@@ -1,5 +1,7 @@
 package Persistens;
 
+import util.TextUI;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -13,7 +15,7 @@ public class SeedDB {
     public static void createDB() {
 
         try (Connection con = DriverManager.getConnection(connectionString)) {
-            System.out.println("Connected to database");
+            TextUI.displayMsg("Connected to database");
 
             try (Statement stmt = con.createStatement()) {
                 // Create Users Table

@@ -3,6 +3,7 @@ import Model.Dish;
 import Model.Product;
 import Model.User;
 import enums.DishCategory;
+import util.TextUI;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class DishRepo {
         String loadDishQuery = "SELECT * FROM Dishes";
 
         try (Connection con = DriverManager.getConnection(connectionString)) {
-            System.out.println("Connected to database");
+            TextUI.displayMsg("Connected to database");
 
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(loadDishQuery);
@@ -63,13 +64,13 @@ public class DishRepo {
         String insertDishProductQuery = "INSERT INTO DishProducts (dishId, productId) VALUES (?, ?)";
 
         try (Connection con = DriverManager.getConnection(connectionString)) {
-            System.out.println("Connected to database");
+            TextUI.displayMsg("Connected to database");
 
             // Check if the dish already exists
             ArrayList<Dish> dishes = loadDish();
             for (Dish d : dishes) {
                 if (d.getName().equalsIgnoreCase(dish.getName())) {
-                    System.out.println("Dish already exists");
+                    TextUI.displayMsg("Dish already exists");
                     return false;
                 }
             }

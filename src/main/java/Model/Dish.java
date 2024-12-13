@@ -1,6 +1,7 @@
 package Model;
 
 import enums.DishCategory;
+import util.TextUI;
 
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class Dish {
 
     @Override
     public String toString() {
-        System.out.println("Debug: products size = " + products.size()); // Tjek listen
+        TextUI.displayMsg("Debug: products size = " + products.size()); // Tjek listen
         StringBuilder productNames = new StringBuilder();
         for (Product product : products) {
             productNames.append(product.toString()).append(", ");
