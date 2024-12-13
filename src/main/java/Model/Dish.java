@@ -4,8 +4,6 @@ import Persistens.DishProductRepo;
 import Persistens.DishRepo;
 import util.TextUI;
 import enums.DishCategory;
-import util.TextUI;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -67,7 +65,7 @@ public class Dish {
     public void setDishCalories(int dishCalories) {
         this.dishCalories = dishCalories;
     }
-    
+
     public void setProducts(List<Product> products) {
         this.products = products;
     }
@@ -172,14 +170,14 @@ public class Dish {
             }
 
             // Display results
-            System.out.println("Nutritional values for dish: " + selectedDish.getName());
-            System.out.println("Total Calories: " + totalCalories);
-            System.out.println("Total Carbs: " + totalCarbs + "g");
-            System.out.println("Total Sugar: " + totalSugar + "g");
-            System.out.println("Total Protein: " + totalProtein + "g");
-            System.out.println("Total Fat: " + totalFat + "g");
+            TextUI.displayMsg("Nutritional values for dish: " + selectedDish.getName());
+            TextUI.displayMsg("Total Calories: " + totalCalories);
+            TextUI.displayMsg("Total Carbs: " + totalCarbs + "g");
+            TextUI.displayMsg("Total Sugar: " + totalSugar + "g");
+            TextUI.displayMsg("Total Protein: " + totalProtein + "g");
+            TextUI.displayMsg("Total Fat: " + totalFat + "g");
         } else {
-            System.out.println("No dishes available.");
+            TextUI.displayMsg("No dishes available.");
         }
     }
 
