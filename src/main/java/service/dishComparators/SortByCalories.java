@@ -1,4 +1,4 @@
-package service;
+package service.dishComparators;
 
 import Model.Dish;
 import java.util.Comparator;

@@ -1,9 +1,8 @@
-package service;
+package service.dishComparators;
 
 import Model.Dish;
 import Model.Product;
 import org.junit.jupiter.api.Test;
-import util.HealthCalculator;
 
 import java.util.ArrayList;
 import java.util.Collections;
