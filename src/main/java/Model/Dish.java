@@ -31,7 +31,6 @@ public class Dish {
         this.products = products;
     }
 
-
     public String getName() {
         return name;
     }
