@@ -5,6 +5,10 @@ import Persistens.DishRepo;
 import util.TextUI;
 import enums.DishCategory;
 import java.util.ArrayList;
+
+import enums.DishCategory;
+import util.TextUI;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,6 +21,7 @@ public class Dish {
     List<Product> products;
     public static ArrayList<Dish> loadedDishes = DishRepo.loadDish();
 
+
     public Dish(int id, String name, double weight, int dishCalories, List<Product> products, DishCategory dishCategory){
         this.id = id;
         this.name = name;
@@ -24,8 +29,8 @@ public class Dish {
         this.dishCalories = dishCalories;
         this.products = products;
         this.dishCategory = dishCategory;
-    }
-
+}
+ 
     public Dish(String name, double weight, int dishCalories, List<Product> products, DishCategory dishCategory) {
         this.name = name;
         this.dishWeight = weight;
@@ -72,6 +77,7 @@ public class Dish {
 
     @Override
     public String toString() {
+
         StringBuilder productNames = new StringBuilder();
         for (Product product : products) {
             productNames.append(product.toString()).append(", ");

@@ -47,6 +47,7 @@ public class DishRepo {
 
                 // Create dish object
                 Dish dish = new Dish(dishId, name, dishWeight, dishCalories, products, dishCategory);
+
                 dishes.add(dish);
             }
 
