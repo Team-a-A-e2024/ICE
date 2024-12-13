@@ -39,7 +39,7 @@ public class DishRepo {
                 ArrayList<Product> products = DishProductRepo.getProductsForDish(dishId);
 
                 // Opret Dish-objekt
-                Dish dish = new Dish(dishId, name, dishWeight, dishCalories, products);
+                Dish dish = new Dish(name, dishWeight, dishCalories, products);
                 dishes.add(dish);
             }
 
@@ -50,6 +50,7 @@ public class DishRepo {
 
         return dishes;
     }
+
 
     public static boolean saveDish(Dish dish) {
         String insertDishQuery = "INSERT INTO Dishes (name, dishWeight, dishCalorie) VALUES (?, ?, ?)";
