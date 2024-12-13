@@ -1,6 +1,7 @@
 package Persistens;
 
 import Model.User;
+import util.TextUI;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class UserRepo {
     public static ArrayList<User> loadUsers(){
 
         try (Connection con = DriverManager.getConnection(connectionString)) {
-            System.out.println("Connected to database");
+            TextUI.displayMsg("Connected to database");
 
             // The Statement is used to send SQL queries to the database. (SELECT, INSERT etc.)
             Statement stmt = con.createStatement();
@@ -45,7 +46,7 @@ public class UserRepo {
         String insertUserQuery = "INSERT INTO Users (userName, password) VALUES (?, ?)";
 
         try (Connection con = DriverManager.getConnection(connectionString)) {
-            System.out.println("Connected to database");
+            TextUI.displayMsg("Connected to database");
 
             PreparedStatement pstmt = con.prepareStatement(insertUserQuery);
 
