@@ -34,7 +34,8 @@ public class SeedDB {
                                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                                 name VARCHAR(50),
                                 dishWeight FLOAT(10),
-                                dishCalorie INT(10)
+                                dishCalorie INT(10),
+                                dishCategory TEXT                            
                             );
                         """);
 
@@ -63,6 +64,7 @@ public class SeedDB {
                                 FOREIGN KEY(productId)REFERENCES Products(id)ON DELETE CASCADE
                         );
                         """);
+
                 System.out.println("Tables created successfully");
             } catch (SQLException e) {
                 System.out.println("Error: " + e.getMessage());

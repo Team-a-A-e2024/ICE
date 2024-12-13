@@ -1,5 +1,7 @@
 package Model;
 
+import enums.DishCategory;
+
 import java.util.List;
 
 public class Dish {
@@ -7,13 +9,19 @@ public class Dish {
     private String name;
     private double dishWeight;
     private int dishCalories;
+    private DishCategory dishCategory;
     List<Product> products;
 
-    public Dish(String name, double weight, int dishCalories, List<Product> products) {
+    public Dish(String name, double weight, int dishCalories, List<Product> products, DishCategory dishCategory) {
         this.name = name;
         this.dishWeight = weight;
         this.dishCalories = dishCalories;
         this.products = products;
+        this.dishCategory = dishCategory;
+    }
+
+    public DishCategory getDishCategory() {
+        return dishCategory;
     }
 
     public String getName() {
