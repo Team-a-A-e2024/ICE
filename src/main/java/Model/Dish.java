@@ -58,8 +58,6 @@ public class Dish {
         this.products = products;
     }
 
-
-
     @Override
     public String toString() {
         System.out.println("Debug: products size = " + products.size()); // Tjek listen

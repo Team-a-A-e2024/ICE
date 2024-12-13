@@ -91,8 +91,6 @@ public class DishRepo {
             for (Product product : dish.getProducts()) {
                 // Save the product if it doesn't exist
                 saveProduct(product);
-
-                // Link product to the dish
                 addProductToDish(dishId, product.getId());
             }
 
@@ -103,7 +101,6 @@ public class DishRepo {
 
         return false;
     }
-
 
     public static void addDishWithProducts(Dish dish, ArrayList<Integer> productIds) {
         String insertDish = "INSERT INTO Dishes (name, dishWeight, dishCalorie) VALUES (?, ?, ?)";
