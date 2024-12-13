@@ -3,7 +3,7 @@ package Model;
 import Persistens.DishProductRepo;
 import Persistens.DishRepo;
 import util.TextUI;
-
+import enums.DishCategory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -13,6 +13,7 @@ public class Dish {
     private String name;
     private double dishWeight;
     private int dishCalories;
+    private DishCategory dishCategory;
     List<Product> products;
     public static ArrayList<Dish> loadedDishes = DishRepo.loadDish();
 
@@ -29,6 +30,11 @@ public class Dish {
         this.dishWeight = weight;
         this.dishCalories = dishCalories;
         this.products = products;
+        this.dishCategory = dishCategory;
+    }
+
+    public DishCategory getDishCategory() {
+        return dishCategory;
     }
 
     public String getName() {
@@ -39,7 +45,6 @@ public class Dish {
         return dishWeight;
     }
 
-    //TODO Make the method to calculate calories of products based on weight!!!
     public int getDishCalories() {
         return dishCalories;
     }

@@ -2,6 +2,8 @@ package Persistens;
 import Model.Dish;
 import Model.Product;
 import Model.User;
+import enums.DishCategory;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -34,12 +36,16 @@ public class DishRepo {
                 String name = rs.getString("name");
                 double dishWeight = rs.getDouble("dishWeight");
                 int dishCalories = rs.getInt("dishCalorie");
+                String dishCategoryString = rs.getString("dishCategory");
+
+                //Convert string to enum
+                DishCategory dishCategory = DishCategory.valueOf(dishCategoryString);
 
                 // get Products for this object
                 ArrayList<Product> products = DishProductRepo.getProductsForDish(dishId);
 
                 // Create dish object
-                Dish dish = new Dish(dishId, name, dishWeight, dishCalories, products);
+                Dish dish = new Dish(dishId, name, dishWeight, dishCalories, products, dishCategory);
                 dishes.add(dish);
             }
 
@@ -52,7 +58,7 @@ public class DishRepo {
     }
 
     public static boolean saveDish(Dish dish) {
-        String insertDishQuery = "INSERT INTO Dishes (name, dishWeight, dishCalorie) VALUES (?, ?, ?)";
+        String insertDishQuery = "INSERT INTO Dishes (name, dishWeight, dishCalorie, dishCategory) VALUES (?, ?, ?, ?)";
         String insertDishProductQuery = "INSERT INTO DishProducts (dishId, productId) VALUES (?, ?)";
 
         try (Connection con = DriverManager.getConnection(connectionString)) {
@@ -72,6 +78,7 @@ public class DishRepo {
             dishStmt.setString(1, dish.getName());
             dishStmt.setDouble(2, dish.getDishWeight());
             dishStmt.setInt(3, dish.getDishCalories());
+            dishStmt.setString(4, dish.getDishCategory().name());
 
             int affectedRows = dishStmt.executeUpdate();
             if (affectedRows == 0) {
