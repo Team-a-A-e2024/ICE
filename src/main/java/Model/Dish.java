@@ -1,5 +1,8 @@
 package Model;
 
+import enums.DishCategory;
+import util.TextUI;
+
 import java.util.List;
 
 public class Dish {
@@ -7,13 +10,19 @@ public class Dish {
     private String name;
     private double dishWeight;
     private int dishCalories;
+    private DishCategory dishCategory;
     List<Product> products;
 
-    public Dish(String name, double weight, int dishCalories, List<Product> products) {
+    public Dish(String name, double weight, int dishCalories, List<Product> products, DishCategory dishCategory) {
         this.name = name;
         this.dishWeight = weight;
         this.dishCalories = dishCalories;
         this.products = products;
+        this.dishCategory = dishCategory;
+    }
+
+    public DishCategory getDishCategory() {
+        return dishCategory;
     }
 
     public String getName() {
@@ -50,7 +59,7 @@ public class Dish {
 
     @Override
     public String toString() {
-        System.out.println("Debug: products size = " + products.size()); // Tjek listen
+        TextUI.displayMsg("Debug: products size = " + products.size()); // Tjek listen
         StringBuilder productNames = new StringBuilder();
         for (Product product : products) {
             productNames.append(product.toString()).append(", ");

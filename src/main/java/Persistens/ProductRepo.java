@@ -1,5 +1,6 @@
 package Persistens;
 import Model.Product;
+import util.TextUI;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class ProductRepo {
     public static ArrayList<Product> loadProducts() {
 
         try (Connection con = DriverManager.getConnection(connectionString)) {
-            System.out.println("Connected to database");
+            TextUI.displayMsg("Connected to database");
 
             // The Statement is used to send SQL queries to the database. (SELECT, INSERT etc.)
             Statement stmt = con.createStatement();
