@@ -1,19 +1,46 @@
 package Model;
 
+import Persistens.DishProductRepo;
+import Persistens.DishRepo;
+import util.TextUI;
+import enums.DishCategory;
+import java.util.ArrayList;
+
+import enums.DishCategory;
+import util.TextUI;
+
 import java.util.List;
+import java.util.Scanner;
 
 public class Dish {
     private int id;
     private String name;
     private double dishWeight;
     private int dishCalories;
+    private DishCategory dishCategory;
     List<Product> products;
+    public static ArrayList<Dish> loadedDishes = DishRepo.loadDish();
 
-    public Dish(String name, double weight, int dishCalories, List<Product> products) {
+
+    public Dish(int id, String name, double weight, int dishCalories, List<Product> products, DishCategory dishCategory){
+        this.id = id;
         this.name = name;
         this.dishWeight = weight;
         this.dishCalories = dishCalories;
         this.products = products;
+        this.dishCategory = dishCategory;
+}
+ 
+    public Dish(String name, double weight, int dishCalories, List<Product> products, DishCategory dishCategory) {
+        this.name = name;
+        this.dishWeight = weight;
+        this.dishCalories = dishCalories;
+        this.products = products;
+        this.dishCategory = dishCategory;
+    }
+
+    public DishCategory getDishCategory() {
+        return dishCategory;
     }
 
     public String getName() {
@@ -23,7 +50,7 @@ public class Dish {
     public double getDishWeight() {
         return dishWeight;
     }
-    //TODO Make the method to calculate calories of products based on weight!!!
+
     public int getDishCalories() {
         return dishCalories;
     }
@@ -50,7 +77,7 @@ public class Dish {
 
     @Override
     public String toString() {
-        System.out.println("Debug: products size = " + products.size()); // Tjek listen
+
         StringBuilder productNames = new StringBuilder();
         for (Product product : products) {
             productNames.append(product.toString()).append(", ");
@@ -60,6 +87,104 @@ public class Dish {
             productNames.setLength(productNames.length() - 2);
         }
         return "Dish: name " + name + " dishWeight " + dishWeight + " dishCalories " + dishCalories + " Products: [" + productNames + "]";
+    }
+
+    public static void displayNutritionForAllDishes() {
+        ArrayList<Dish> loadedDishes = DishRepo.loadDish();
+        System.out.println("Loaded dishes:");
+        for (Dish d : loadedDishes) {
+            System.out.println(d);
+        }
+    }
+
+    public static void displayNutritionForSpecificDish() {
+        if (!loadedDishes.isEmpty()) {
+            // Display all dishes for the user to choose from
+            TextUI.displayMsg("Please choose a dish by entering the corresponding number:");
+            for (int i = 0; i < loadedDishes.size(); i++) {
+                System.out.println((i + 1) + ": " + loadedDishes.get(i).getName());
+            }
+
+            // Get user input
+            Scanner scanner = new Scanner(System.in);
+            int choice = -1;
+            while (choice < 1 || choice > loadedDishes.size()) {
+                TextUI.displayMsg("Enter a valid number between 1 and " + loadedDishes.size() + ":");
+                if (scanner.hasNextInt()) {
+                    choice = scanner.nextInt();
+                } else {
+                    scanner.next(); // Consume invalid input
+                }
+            }
+
+            Dish selectedDish = loadedDishes.get(choice - 1);
+
+            // Retrieve and display products for the selected dish
+            ArrayList<Product> loadedProducts = DishProductRepo.getProductsForDish(selectedDish.getId());
+
+            if (!loadedProducts.isEmpty()) {
+                TextUI.displayMsg("Products for dish " + selectedDish.getName() + ":");
+                for (Product p : loadedProducts) {
+                    System.out.println(p);
+                }
+            } else {
+                TextUI.displayMsg("No products found for dish " + selectedDish.getName() + ".");
+            }
+        } else {
+            TextUI.displayMsg("No dishes found.");
+        }
+    }
+
+    public static void displayTotalNutritionForSpecificDish() {
+        if (!loadedDishes.isEmpty()) {
+            // Display all dishes for the user to choose from
+            TextUI.displayMsg("Please choose a dish by entering the corresponding number:");
+            for (int i = 0; i < loadedDishes.size(); i++) {
+                System.out.println((i + 1) + ": " + loadedDishes.get(i).getName());
+            }
+
+            // Get user input
+            Scanner scanner = new Scanner(System.in);
+            int choice = -1;
+            while (choice < 1 || choice > loadedDishes.size()) {
+                TextUI.displayMsg("Enter a valid number between 1 and " + loadedDishes.size() + ":");
+                if (scanner.hasNextInt()) {
+                    choice = scanner.nextInt();
+                } else {
+                    scanner.next(); // Consume invalid input
+                }
+            }
+
+            Dish selectedDish = loadedDishes.get(choice - 1);
+            int dishId = selectedDish.getId();
+
+            // Retrieve products for the selected dish
+            ArrayList<Product> loadedProducts = DishProductRepo.getProductsForDish(dishId); //TODO Replace dishId or make a method where we can see dishId before selecting a dish
+
+            double totalCalories = 0;
+            int totalCarbs = 0;
+            int totalSugar = 0;
+            int totalProtein = 0;
+            int totalFat = 0;
+
+            for (Product product : loadedProducts) {
+                totalCalories += product.getCalorie();
+                totalCarbs += product.getCarb();
+                totalSugar += product.getSugar();
+                totalProtein += product.getProtein();
+                totalFat += product.getFat();
+            }
+
+            // Display results
+            TextUI.displayMsg("Nutritional values for dish: " + selectedDish.getName());
+            TextUI.displayMsg("Total Calories: " + totalCalories);
+            TextUI.displayMsg("Total Carbs: " + totalCarbs + "g");
+            TextUI.displayMsg("Total Sugar: " + totalSugar + "g");
+            TextUI.displayMsg("Total Protein: " + totalProtein + "g");
+            TextUI.displayMsg("Total Fat: " + totalFat + "g");
+        } else {
+            TextUI.displayMsg("No dishes available.");
+        }
     }
 
     public int getId() {
