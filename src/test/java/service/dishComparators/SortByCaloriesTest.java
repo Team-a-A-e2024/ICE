@@ -27,6 +27,7 @@ public class SortByCaloriesTest {
             //weight is used to indicate proper sort order in test
             if (dishes.get(i).getDishWeight() != i){
                 isProperSorted = false;
+                break;
             }
         }
 
