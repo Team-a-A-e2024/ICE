@@ -1,14 +1,12 @@
 package Persistens;
 
-import Model.Dish;
-import Model.Product;
-import enums.DishCategory;
-import org.w3c.dom.Text;
+import Models.Dish;
+import Models.Product;
+import Models.enums.DishCategory;
 import util.TextUI;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 import static Persistens.DishProductRepo.addProductToDish;
 import static Persistens.ProductRepo.saveProduct;
@@ -20,7 +18,6 @@ public class DishRepo {
 
     static ArrayList<Dish> dishes = new ArrayList<>();
 
-
     //Test if we are connected to database
     static String connectionString = "jdbc:sqlite:" + System.getProperty("user.dir") + "/identifier.sqlite";
 
@@ -30,7 +27,6 @@ public class DishRepo {
         String loadDishQuery = "SELECT * FROM Dishes";
 
         try (Connection con = DriverManager.getConnection(connectionString)) {
-            TextUI.displayMsg("Connected to database");
 
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(loadDishQuery);
@@ -61,15 +57,11 @@ public class DishRepo {
         return dishes;
     }
 
-    //Save dish by getting products from db
-
-
     public static boolean saveDish(Dish dish) {
         String insertDishQuery = "INSERT INTO Dishes (name, dishWeight, dishCalorie, dishCategory) VALUES (?, ?, ?, ?)";
         String insertDishProductQuery = "INSERT INTO DishProducts (dishId, productId) VALUES (?, ?)";
 
         try (Connection con = DriverManager.getConnection(connectionString)) {
-            TextUI.displayMsg("Connected to database");
 
             // Check if the dish already exists
             ArrayList<Dish> dishes = loadDish();
@@ -102,11 +94,8 @@ public class DishRepo {
 
             // Save products and link them to the dish
             for (Product product : dish.getProducts()) {
-                // Save the product if it doesn't exist
-                saveProduct(product);
                 addProductToDish(dishId, product.getId());
             }
-
             return true;
         } catch (SQLException e) {
             e.printStackTrace();

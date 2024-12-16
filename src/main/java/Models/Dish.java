@@ -1,15 +1,12 @@
-package Model;
+package Models;
 
 import Persistens.DishProductRepo;
 import Persistens.DishRepo;
 import Persistens.ProductRepo;
 import util.TextUI;
-import enums.DishCategory;
+import Models.enums.DishCategory;
 
 import java.util.ArrayList;
-
-import enums.DishCategory;
-import util.TextUI;
 
 import java.util.List;
 import java.util.Scanner;
@@ -189,15 +186,11 @@ public class Dish {
         }
     }
 
-    public double calculateTotalWeightForADish(Dish dish) {
-            int dishId = dish.getId();
-
-            // Retrieve products for the selected dish
-            ArrayList<Product> loadedProducts = DishProductRepo.getProductsForDish(dishId);
+    public static double calculateTotalWeightForADish(List<Product> products) {
 
             int totalWeight = 0;
 
-            for (Product product : loadedProducts) {
+            for (Product product : products) {
                 totalWeight += product.getWeight();
             }
 
@@ -206,7 +199,6 @@ public class Dish {
     }
 
     public static int calculateTotalCalorieForADish(List<Product> products) {
-        if (!loadedDishes.isEmpty()) {
 
             int totalCalories = 0;
 
@@ -215,10 +207,6 @@ public class Dish {
             }
 
             return totalCalories;
-        } else {
-            TextUI.displayMsg("No dishes available.");
-        }
-        return 0;
     }
 
     public int getId() {
@@ -233,7 +221,7 @@ public class Dish {
         String name = TextUI.promptText("What is the name of the dish?");
         DishCategory dishCategory = TextUI.promptEnum("Which kind of meal is the dish?");
 
-        double totalWeight = Dish.calculateTotalCalorieForADish(choices);
+        double totalWeight = Dish.calculateTotalWeightForADish(choices);
         int totalCalories = Dish.calculateTotalCalorieForADish(choices);
 
         Dish dish = new Dish(name, totalWeight, totalCalories, choices, dishCategory);

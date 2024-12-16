@@ -1,4 +1,4 @@
-import Model.Product;
+import Models.Product;
 import Persistens.ProductRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,7 +1,7 @@
 package util;
 
-import Model.Product;
-import enums.DishCategory;
+import Models.Product;
+import Models.enums.DishCategory;
 
 import java.util.ArrayList;
 import java.util.List;

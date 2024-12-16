@@ -1,4 +1,4 @@
-package enums;
+package Models.enums;
 
 public enum DishCategory {
     BREAKFAST,

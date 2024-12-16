@@ -1,6 +1,6 @@
 package com.example.ICE.service;
 
-import Model.Product;
+import Models.Product;
 import Persistens.ProductRepo;
 import org.springframework.stereotype.Service;
 import util.ApiService;

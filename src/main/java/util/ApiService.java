@@ -1,12 +1,10 @@
 package util;
 
-import Model.Product;
+import Models.Product;
 import Persistens.ProductRepo;
-import com.sun.jdi.DoubleValue;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.*;

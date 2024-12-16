@@ -1,7 +1,6 @@
 package Persistens;
-import Model.Product;
-import Model.User;
-import util.TextUI;
+import Models.Product;
+
 import java.sql.*;
 import java.util.ArrayList;
 
