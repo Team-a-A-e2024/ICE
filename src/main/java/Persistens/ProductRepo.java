@@ -80,11 +80,11 @@ public class ProductRepo {
         return false;
     }
 
-    public static void createProductByUser(){
+    public static void createProductByUser() {
 
         boolean succes = false;
 
-        while(!succes)
+        while (!succes)
             try {
                 String name = TextUI.promptText("Enter the name of the product:");
                 String barcode = TextUI.promptText("Enter the barcode of the product:");
@@ -98,13 +98,10 @@ public class ProductRepo {
                 saveProduct(product);
                 TextUI.displayMsg("Product added successfully");
                 succes = true;
-            }
-            catch(InputMismatchException iME){
+            } catch (InputMismatchException iME) {
                 TextUI.displayMsg("Invalid input! Please ensure you enter the correct type of value. Try again");
                 // Clear the invalid input from the buffer
                 TextUI.clearInputBuffer();
             }
+        }
     }
-
-
-}
