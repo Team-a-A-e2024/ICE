@@ -1,5 +1,4 @@
 import Model.Product;
-import Persistens.ProductRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import util.AppService;
@@ -8,17 +7,18 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
+import Model.User;
 
 class AppServiceTest {
     private Scanner mockScanner;
-    private ProductRepo mockPoductRepo;
+    private User mockUser;
 
 @BeforeEach
 void setup(){
 
     mockScanner = mock(Scanner.class);
     TextUI.setScanner(mockScanner);
-    mockPoductRepo = mock(ProductRepo.class);
+    mockUser = mock(User.class);
 }
 @Test
     void testAppService() {
@@ -29,7 +29,7 @@ void setup(){
     ArrayList<Product> nyCocaCola = new ArrayList<Product>();
     nyCocaCola.add(product);
     // act
-    AppService appservice = new AppService(mockPoductRepo);
+    AppService appservice = new AppService(mockUser);
     appservice.setProductList(nyCocaCola);
     ArrayList<Product> actual = appservice.searchProducts();
     //assert
@@ -45,7 +45,7 @@ void testShortCutSearching() {
     ArrayList<Product> nyCocaCola = new ArrayList<Product>();
     nyCocaCola.add(product);
     // act
-    AppService appservice = new AppService(mockPoductRepo);
+    AppService appservice = new AppService(mockUser);
     appservice.setProductList(nyCocaCola);
     ArrayList<Product> actual = appservice.searchProducts();
     //assert
@@ -61,7 +61,7 @@ void testShortCutSearching() {
         ArrayList<Product> nyCocaCola = new ArrayList<Product>();
         nyCocaCola.add(product);
         // act
-        AppService appservice = new AppService(mockPoductRepo);
+        AppService appservice = new AppService(mockUser);
         appservice.setProductList(nyCocaCola);
         ArrayList<Product> actual = appservice.searchProducts();
         //assert
@@ -72,7 +72,7 @@ void testShortCutSearching() {
     void testClosingSearching() {
         when(mockScanner.nextLine()).thenReturn("x");
         // act
-        AppService appservice = new AppService(mockPoductRepo);
+        AppService appservice = new AppService(mockUser);
         appservice.setProductList(new ArrayList<Product>());
         ArrayList<Product> actual = appservice.searchProducts();
         //assert
