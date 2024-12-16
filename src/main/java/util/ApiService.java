@@ -97,29 +97,29 @@ public class ApiService {
 
         for (int i = 0; i < arr.length(); i++)
         {
-            String code = obj.getString("code");
+            String code = arr.getJSONObject(i).getString("code");
 
             try {
-                String productName = obj.getString("product_name");
+                String productName = arr.getJSONObject(i).getString("product_name");
                 if (productName == null || productName.isEmpty() || productName.isBlank()){
                     continue;
                 }
                 else if (!isProductSaved(code)) {
                     Product product = new Product(
-                            obj.getString("product_name"),
-                            obj.getString("code"),
-                            obj.getBigDecimal("product_quantity").doubleValue(),
-                            obj.getBigDecimal("energy-kcal_100g").intValue(),
-                            obj.getBigDecimal("carbohydrates_100g").intValue(),
-                            obj.getBigDecimal("sugars_100g").intValue(),
-                            obj.getBigDecimal("proteins_100g").intValue(),
-                            obj.getBigDecimal("fat_100g").intValue()
+                            arr.getJSONObject(i).getString("product_name"),
+                            arr.getJSONObject(i).getString("code"),
+                            arr.getJSONObject(i).getBigDecimal("product_quantity").doubleValue(),
+                            arr.getJSONObject(i).getBigDecimal("energy-kcal_100g").intValue(),
+                            arr.getJSONObject(i).getBigDecimal("carbohydrates_100g").intValue(),
+                            arr.getJSONObject(i).getBigDecimal("sugars_100g").intValue(),
+                            arr.getJSONObject(i).getBigDecimal("proteins_100g").intValue(),
+                            arr.getJSONObject(i).getBigDecimal("fat_100g").intValue()
                     );
 
                     ProductRepo.saveProduct(product);
                 }
             } catch (Exception e) {
-                TextUI.displayMsg("Could not parse product");
+                TextUI.displayMsg("Could not parse product at index: " + i);
             }
         }
 
