@@ -100,6 +100,6 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product{ name='" + name + "  " + "weight" + weight + "  "+ "calories" + calorie;
+        return "Product: name = " + name + "  " + "weight " + weight + "  "+ "calories " + calorie;
     }
 }

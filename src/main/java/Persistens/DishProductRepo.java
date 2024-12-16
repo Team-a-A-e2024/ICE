@@ -3,7 +3,6 @@ package Persistens;
 import Model.Product;
 import Model.User;
 import util.TextUI;
-
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -14,7 +13,6 @@ public class DishProductRepo {
         String insertDishProductQuery = "INSERT INTO DishProducts (dishId, productId) VALUES (?, ?)";
 
         try (Connection con = DriverManager.getConnection(connectionString)) {
-            TextUI.displayMsg("Linking productId: " + productId + " to dishId: " + dishId);
 
             PreparedStatement pstmt = con.prepareStatement(insertDishProductQuery);
             pstmt.setInt(1, dishId);

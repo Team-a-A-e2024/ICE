@@ -1,13 +1,12 @@
 package Persistens;
 import Model.Dish;
 import Model.Product;
-import Model.User;
 import enums.DishCategory;
+import org.w3c.dom.Text;
 import util.TextUI;
-
 import java.sql.*;
 import java.util.ArrayList;
-
+import java.util.List;
 import static Persistens.DishProductRepo.addProductToDish;
 import static Persistens.ProductRepo.saveProduct;
 
@@ -17,6 +16,7 @@ public class DishRepo {
     static String loadDish = "SELECT * FROM DISHES";
 
     static ArrayList<Dish> dishes = new ArrayList<>();
+
 
     //Test if we are connected to database
     static String connectionString = "jdbc:sqlite:" + System.getProperty("user.dir") + "/identifier.sqlite";
@@ -50,7 +50,6 @@ public class DishRepo {
 
                 dishes.add(dish);
             }
-
             stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
