@@ -83,7 +83,14 @@ public class Menu {
         switch (options.get(0)) {
             case "Scan barcode":
                 String filePath = TextUI.promptText("Please enter the barcode you wish to scan: ");
+                String code = readCodeFromPath(filePath);
+                if (code == null){
+                    TextUI.displayMsg("Invalid barcode");
+                    barcodeMenu();
+                    return;
+                }
                 product = searchProductByCode(readCodeFromPath(filePath));
+                TextUI.displayMsg("You have scanned: " + product.getName());
                 if (product == null) {
                     boolean result = TextUI.promptBinary("Could not find barcode, would you to scan again? (y/n)");
                     if (result) {barcodeMenu();
@@ -118,26 +125,28 @@ public class Menu {
         }
     }
 
-    public static void seeDishMenu() {
+    public static void viewDishesMenu() {
         //Todo: Enter searchDish function when it is ready.
     }
 
     public static void productMenu(Product product) {
-        TextUI.displayMsg("You have scanned: " + product.getName());
         List<String> options = new ArrayList();
         options.add("Save product");
         options.add("Save dish");
         options.add("View info");
         options.add("Exit");
-        TextUI.promptChoice(options, 1, "Please choose an option: ");
+        options = TextUI.promptChoice(options, 1, "Please choose an option: ");
         switch (options.get(0)) {
             case "Save product":
                 saveProduct(product);
+                TextUI.displayMsg("You have saved: " + product.getName());
+                productMenu(product);
                 break;
             case "Save dish":
                 //Todo: Make case for save product to a dish.
             case "View info":
                 TextUI.displayMsg(product.toString());
+                productMenu(product);
                 break;
             case "Exit":
                 return;
