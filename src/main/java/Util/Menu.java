@@ -55,7 +55,7 @@ public class Menu {
     public static void displayMenu() {
         List<String> options = new ArrayList();
         options.add("Search products");
-        options.add("Saved dishes");
+        options.add("View saved dishes");
         options.add("Scan barcode");
         options.add("Exit");
         options = TextUI.promptChoice(options, 1, "What would you like to do?");
@@ -64,7 +64,7 @@ public class Menu {
             case "Search products":
                 searchProductMenu();
                 break;
-            case "See saved dishes":
+            case "View saved dishes":
                 //missing function. in user?
                 break;
             case "Scan barcode":
