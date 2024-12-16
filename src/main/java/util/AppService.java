@@ -11,7 +11,7 @@ public class AppService {
     private List<String> products;
     User user;
     private ProductRepo productRepo;
-    private ArrayList<Product> productList;
+    private static ArrayList<Product> productList;
 
     public void setProductList(ArrayList<Product> productList) {
         this.productList = productList;

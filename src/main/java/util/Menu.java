@@ -1,10 +1,7 @@
-package Util;
+package util;
 
 import Model.Product;
 import Model.User;
-import barscanner.Barscanner;
-import util.Authorization;
-import util.TextUI;
 
 import java.util.Set;
 import java.util.HashSet;
@@ -14,7 +11,6 @@ import java.util.ArrayList;
 import static Persistens.ProductRepo.saveProduct;
 import static barscanner.Barscanner.readCodeFromPath;
 import static java.lang.System.exit;
-import static util.ApiService.searchProduct;
 import static util.AppService.searchProducts;
 import static util.ProductDetailsService.getProductByCode;
 
