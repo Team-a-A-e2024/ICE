@@ -1,0 +1,16 @@
+form {
+    margin: 0 auto;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+input[type="text"] {
+    width: 25%;
+    padding: 10px;
+    margin: 10px;
+
+}
+
+button {
+    padding: 10px 20px;
+}

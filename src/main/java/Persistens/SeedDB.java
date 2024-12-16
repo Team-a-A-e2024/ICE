@@ -29,7 +29,6 @@ public class SeedDB {
                                 dish VARCHAR(50)
                             );
                         """);
-
                 // Create Dishes Table
                 stmt.execute("""
                             CREATE TABLE IF NOT EXISTS Dishes (

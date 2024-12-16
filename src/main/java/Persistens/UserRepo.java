@@ -5,7 +5,6 @@ import util.TextUI;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class UserRepo {
     static String loadFullUser = "SELECT userName, password FROM Users";

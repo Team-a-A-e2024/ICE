@@ -42,11 +42,12 @@ public class DishRepo {
                 //Convert string to enum
                 DishCategory dishCategory = DishCategory.valueOf(dishCategoryString);
 
-                // Hent produkter for denne dish
+                // get Products for this object
                 ArrayList<Product> products = DishProductRepo.getProductsForDish(dishId);
 
-                // Opret Dish-objekt
-                Dish dish = new Dish(name, dishWeight, dishCalories, products, dishCategory);
+                // Create dish object
+                Dish dish = new Dish(dishId, name, dishWeight, dishCalories, products, dishCategory);
+
                 dishes.add(dish);
             }
 
@@ -57,7 +58,6 @@ public class DishRepo {
 
         return dishes;
     }
-
 
     public static boolean saveDish(Dish dish) {
         String insertDishQuery = "INSERT INTO Dishes (name, dishWeight, dishCalorie, dishCategory) VALUES (?, ?, ?, ?)";
@@ -99,8 +99,6 @@ public class DishRepo {
             for (Product product : dish.getProducts()) {
                 // Save the product if it doesn't exist
                 saveProduct(product);
-
-                // Link product to the dish
                 addProductToDish(dishId, product.getId());
             }
 
@@ -111,7 +109,6 @@ public class DishRepo {
 
         return false;
     }
-
 
     public static void addDishWithProducts(Dish dish, ArrayList<Integer> productIds) {
         String insertDish = "INSERT INTO Dishes (name, dishWeight, dishCalorie) VALUES (?, ?, ?)";
@@ -138,5 +135,4 @@ public class DishRepo {
             e.printStackTrace();
         }
     }
-
 }
