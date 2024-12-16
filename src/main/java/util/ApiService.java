@@ -3,6 +3,7 @@ package util;
 import Model.Product;
 import Persistens.ProductRepo;
 import com.sun.jdi.DoubleValue;
+import enums.DishCategory;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
@@ -12,6 +13,7 @@ import java.net.URLEncoder;
 import java.net.http.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ApiService {
@@ -39,9 +41,50 @@ public class ApiService {
                 "&sort_by=popularity_key";
 
         String responseBody = GET(searchRequest);
-      
 
         return productParser(responseBody);
+    }
+
+    public static Product searchProductByCode(String barcode) {
+        String searchRequest = baseUrl + "/api/v3/product/" + barcode + ".json";
+
+        String responseBody = GET(searchRequest);
+
+        return parseSingleProduct(responseBody);
+    }
+
+    private static Product parseSingleProduct(String responseBody) {
+        ApiService.products = ProductRepo.loadProducts();
+        JSONObject obj = new JSONObject(responseBody);
+        String code = obj.getString("code");
+        JSONObject jsonProduct = obj.getJSONObject("product");
+
+        try {
+            String productName = jsonProduct.getString("product_name");
+            if (productName == null || productName.isEmpty() || productName.isBlank()){
+                return null;
+            }
+            else if (!isProductSaved(code)) {
+                JSONObject jsonNutriments = jsonProduct.getJSONObject("nutriments");
+                Product product = new Product(
+                        jsonProduct.getString("product_name"),
+                        jsonProduct.getString("code"),
+                        jsonProduct.getBigDecimal("product_quantity").doubleValue(),
+                        jsonNutriments.getBigDecimal("energy-kcal_100g").intValue(),
+                        jsonNutriments.getBigDecimal("carbohydrates_100g").intValue(),
+                        jsonNutriments.getBigDecimal("sugars_100g").intValue(),
+                        jsonNutriments.getBigDecimal("proteins_100g").intValue(),
+                        jsonNutriments.getBigDecimal("fat_100g").intValue()
+                );
+
+                ProductRepo.saveProduct(product);
+
+                return product;
+            }
+        } catch (Exception e) {
+            TextUI.displayMsg("Could not parse product");
+        }
+        return null;
     }
 
     private static List<Product> productParser(String responseBody) {
@@ -76,7 +119,7 @@ public class ApiService {
                     ProductRepo.saveProduct(product);
                 }
             } catch (Exception e) {
-
+                TextUI.displayMsg("Could not parse product at index: " + i);
             }
         }
 

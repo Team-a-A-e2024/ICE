@@ -10,8 +10,7 @@ import java.util.List;
 public class AppService {
     private List<String> products;
     User user;
-    private ProductRepo productRepo;
-    private static ArrayList<Product> productList;
+    private List<Product> productList;
 
     public void setProductList(ArrayList<Product> productList) {
         this.productList = productList;
@@ -23,10 +22,10 @@ public class AppService {
     }
 
     //searches for a product within an array
-    public static ArrayList<Product> searchProducts() {
+    public ArrayList<Product> searchProducts() {
         ArrayList<Product> results = new ArrayList<>();
-        util.TextUI.displayMsg("Please enter the product you wish to search");
-        String productName = util.TextUI.promptText("Search for a product");
+        TextUI.displayMsg("Please enter the product you wish to search");
+        String productName = TextUI.promptText("Search for a product");
 
         //sees if the product has the same name and adds it to a list
         for (Product p : productList) {
@@ -36,12 +35,12 @@ public class AppService {
         }
         //entering only X quits
         if (productName.equalsIgnoreCase("x")) {
-            util.TextUI.displayMsg("You decided not to search, closing searching..");
+            TextUI.displayMsg("You decided not to search, closing searching..");
             return results;
         }
         //if search didn't find anything respond properly
         if (results.isEmpty()) {
-            util.TextUI.displayMsg(productName + " not found, try again");
+            TextUI.displayMsg(productName + " not found, try again");
             return searchProducts();
         }
             return results;
