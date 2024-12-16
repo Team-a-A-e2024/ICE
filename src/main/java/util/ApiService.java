@@ -81,6 +81,9 @@ public class ApiService {
 
                 return product;
             }
+            else {
+                return getProductByCodeInCache(code);
+            }
         } catch (Exception e) {
             TextUI.displayMsg("Could not parse product");
         }
@@ -115,8 +118,11 @@ public class ApiService {
                             arr.getJSONObject(i).getBigDecimal("proteins_100g").intValue(),
                             arr.getJSONObject(i).getBigDecimal("fat_100g").intValue()
                     );
-
+                    products.add(product);
                     ProductRepo.saveProduct(product);
+                }
+                else {
+                    products.add(getProductByCodeInCache(code));
                 }
             } catch (Exception e) {
                 TextUI.displayMsg("Could not parse product at index: " + i);
@@ -124,6 +130,15 @@ public class ApiService {
         }
 
         return products;
+    }
+
+    private static Product getProductByCodeInCache(String code) {
+        Product product = ApiService.products
+                .stream()
+                .filter(x -> x.getBarcode().equalsIgnoreCase(code))
+                .findFirst()
+                .get();
+        return product;
     }
 
     private static String GET(String searchRequest) {
