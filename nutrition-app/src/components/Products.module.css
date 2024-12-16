@@ -1,0 +1,16 @@
+table {
+    margin: 0 auto;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+th, td {
+    text-align: center;
+    padding: 8px;
+    border: 1px solid #333;
+    min-width: 100px;
+}
+
+tr:hover {
+    background-color: #333;
+}
