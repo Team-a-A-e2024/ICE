@@ -78,7 +78,7 @@ public class Menu {
         options.add("Scan barcode");
         options.add("Enter barcode manually");
         options.add("Return to main menu");
-        TextUI.promptChoice(options, 1, "Please choose an option: ");
+        options = TextUI.promptChoice(options, 1, "Please choose an option: ");
         Product product = null;
         switch (options.get(0)) {
             case "Scan barcode":
