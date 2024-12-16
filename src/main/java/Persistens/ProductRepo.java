@@ -1,6 +1,7 @@
 package Persistens;
 
 import Model.Product;
+import org.w3c.dom.Text;
 import util.TextUI;
 
 import java.sql.*;
@@ -51,7 +52,6 @@ public class ProductRepo {
 
     public static boolean saveProduct(Product product) {
         String insertProductQuery = "INSERT INTO Products (name, barcode, weight, calorie, carb, sugar, protein, fat) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
         try (Connection con = DriverManager.getConnection(connectionString)) {
             PreparedStatement pstmt = con.prepareStatement(insertProductQuery, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, product.getName());
@@ -73,9 +73,11 @@ public class ProductRepo {
             pstmt.close();
 
             return affectedRows > 0;
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
 
         return false;
     }
@@ -94,14 +96,16 @@ public class ProductRepo {
                 int sugar = TextUI.promptInt("Enter the sugar content of the product (in grams):");
                 int protein = TextUI.promptInt("Enter the protein content of the product (in grams):");
                 int fat = TextUI.promptInt("Enter the fat content of the product (in grams):");
+
                 Product product = new Product(name, barcode, weight, calorie, carb, sugar, protein, fat);
                 saveProduct(product);
                 TextUI.displayMsg("Product added successfully");
                 succes = true;
+
             } catch (InputMismatchException iME) {
                 TextUI.displayMsg("Invalid input! Please ensure you enter the correct type of value. Try again");
                 // Clear the invalid input from the buffer
                 TextUI.clearInputBuffer();
             }
-        }
     }
+}

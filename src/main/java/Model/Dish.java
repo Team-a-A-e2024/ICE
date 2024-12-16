@@ -93,7 +93,7 @@ public class Dish {
 
     public static void displayNutritionForAllDishes() {
         ArrayList<Dish> loadedDishes = DishRepo.loadDish();
-        System.out.println("Loaded dishes:");
+        TextUI.displayMsg("Loaded dishes:");
         for (Dish d : loadedDishes) {
             System.out.println(d);
         }
@@ -104,7 +104,7 @@ public class Dish {
             // Display all dishes for the user to choose from
             TextUI.displayMsg("Please choose a dish by entering the corresponding number:");
             for (int i = 0; i < loadedDishes.size(); i++) {
-                System.out.println((i + 1) + ": " + loadedDishes.get(i).getName());
+                TextUI.displayMsg((i + 1) + ": " + loadedDishes.get(i).getName());
             }
 
             // Get user input
@@ -127,7 +127,7 @@ public class Dish {
             if (!loadedProducts.isEmpty()) {
                 TextUI.displayMsg("Products for dish " + selectedDish.getName() + ":");
                 for (Product p : loadedProducts) {
-                    System.out.println(p);
+                    TextUI.displayMsg("" + p);
                 }
             } else {
                 TextUI.displayMsg("No products found for dish " + selectedDish.getName() + ".");
@@ -142,7 +142,7 @@ public class Dish {
             // Display all dishes for the user to choose from
             TextUI.displayMsg("Please choose a dish by entering the corresponding number:");
             for (int i = 0; i < loadedDishes.size(); i++) {
-                System.out.println((i + 1) + ": " + loadedDishes.get(i).getName());
+                TextUI.displayMsg((i + 1) + ": " + loadedDishes.get(i).getName());
             }
 
             // Get user input
@@ -237,7 +237,7 @@ public class Dish {
         int totalCalories = Dish.calculateTotalCalorieForADish(choices);
 
         Dish dish = new Dish(name, totalWeight, totalCalories, choices, dishCategory);
-        DishRepo.saveDishWithExistingProducts(dish);
+        DishRepo.saveDish(dish);
 
     }
 }

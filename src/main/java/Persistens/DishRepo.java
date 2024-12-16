@@ -1,12 +1,15 @@
 package Persistens;
+
 import Model.Dish;
 import Model.Product;
 import enums.DishCategory;
 import org.w3c.dom.Text;
 import util.TextUI;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
 import static Persistens.DishProductRepo.addProductToDish;
 import static Persistens.ProductRepo.saveProduct;
 
@@ -57,6 +60,9 @@ public class DishRepo {
 
         return dishes;
     }
+
+    //Save dish by getting products from db
+
 
     public static boolean saveDish(Dish dish) {
         String insertDishQuery = "INSERT INTO Dishes (name, dishWeight, dishCalorie, dishCategory) VALUES (?, ?, ?, ?)";
