@@ -16,8 +16,7 @@ public class AppService {
         this.productList = productList;
     }
 
-    public AppService(ProductRepo poductRepo) {
-        this.productRepo = poductRepo;
+    public AppService(ProductRepo productRepo) {
         products = new ArrayList<>();
     }
 

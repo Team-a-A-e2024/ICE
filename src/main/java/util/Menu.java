@@ -11,19 +11,18 @@ import java.util.ArrayList;
 import static Persistens.ProductRepo.saveProduct;
 import static barscanner.Barscanner.readCodeFromPath;
 import static java.lang.System.exit;
-import static util.AppService.searchProducts;
-import static util.ProductDetailsService.getProductByCode;
+import static util.ApiService.searchProduct;
+import static util.ApiService.searchProductByCode;
 
 public class Menu {
 
-    public static ArrayList<User> loginMenuLogic() {
+    public static void loginMenuLogic() {
         //Asks the user if they want to log in or sign-up
         List<String> options = new ArrayList();
+        boolean loggedIn = false;
         options.add("Log in");
         options.add("Sign up");
         options = TextUI.promptChoice(options, 1, "There's no user logged in");
-
-        ArrayList<User> currentUser = null;
 
         //Depending on what they want to do it runs different functions for the login and sign-up function
         Authorization auth = new Authorization();
@@ -31,7 +30,7 @@ public class Menu {
             case "Log in":
                 String username = TextUI.promptText("Please enter your username: ");
                 String password = TextUI.promptText("Please enter your password: ");
-                auth.login(username, password);
+                loggedIn = auth.login(username, password);
                 break;
             case "Sign up":
                 username = TextUI.promptText("Please create a new username: ");
@@ -41,10 +40,11 @@ public class Menu {
         }
 
         //If there's no user, it runs itself
-        if (currentUser == null) {
-            return loginMenuLogic();
+        if (loggedIn == false) {
+            loginMenuLogic();
+        }else{
+            displayMenu();
         }
-        return currentUser;
     }
 
 
@@ -83,13 +83,12 @@ public class Menu {
         switch (options.get(0)) {
             case "Scan barcode":
                 String filePath = TextUI.promptText("Please enter the barcode you wish to scan: ");
-                product = getProductByCode(readCodeFromPath(filePath));
-                getProductByCode(readCodeFromPath(filePath));
+                product = searchProductByCode(readCodeFromPath(filePath));
                 productMenu(product);
                 break;
             case "Enter barcode manually":
                 String typeBarcode = TextUI.promptText("Please type the barcode number you wish to scan: ");
-                product = getProductByCode(typeBarcode);
+                product = searchProductByCode(typeBarcode);
                 productMenu(product);
                 break;
             case "Return to main menu":
@@ -102,10 +101,9 @@ public class Menu {
     }
 
     public static void searchProductMenu() {
-        searchProducts();
-        ArrayList<Product> searchProducts;
-        searchProducts = searchProducts();
-        for(Product product : searchProducts) {
+        String search = TextUI.promptText("Please search for a product: ");
+        List <Product> result = searchProduct(search,1);
+        for(Product product : result){
             TextUI.displayMsg("You have found: " + product.getName());
         }
     }
