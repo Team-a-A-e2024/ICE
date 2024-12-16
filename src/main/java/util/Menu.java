@@ -84,7 +84,17 @@ public class Menu {
             case "Scan barcode":
                 String filePath = TextUI.promptText("Please enter the barcode you wish to scan: ");
                 product = searchProductByCode(readCodeFromPath(filePath));
-                productMenu(product);
+                if (product == null) {
+                    boolean result = TextUI.promptBinary("Could not find barcode, would you to scan again? (y/n)");
+                    if (result) {barcodeMenu();
+                    }else {
+                        displayMenu();
+                        return;
+                    }
+                } else {
+                    productMenu(product);
+                }
+
                 break;
             case "Enter barcode manually":
                 String typeBarcode = TextUI.promptText("Please type the barcode number you wish to scan: ");

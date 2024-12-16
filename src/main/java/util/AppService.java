@@ -16,8 +16,9 @@ public class AppService {
         this.productList = productList;
     }
 
-    public AppService(ProductRepo productRepo) {
+    public AppService(User user) {
         products = new ArrayList<>();
+        this.user = user;
     }
 
     //searches for a product within an array
