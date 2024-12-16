@@ -5,6 +5,7 @@ import util.TextUI;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 
 public class ProductRepo {
 
@@ -79,4 +80,28 @@ public class ProductRepo {
         return false;
     }
 
-}
+    public static void createProductByUser() {
+
+        boolean succes = false;
+
+        while (!succes)
+            try {
+                String name = TextUI.promptText("Enter the name of the product:");
+                String barcode = TextUI.promptText("Enter the barcode of the product:");
+                double weight = TextUI.promptDouble("Enter the weight of the product (in grams):");
+                int calorie = TextUI.promptInt("Enter the number of calories in the product:");
+                int carb = TextUI.promptInt("Enter the carbohydrate content of the product (in grams):");
+                int sugar = TextUI.promptInt("Enter the sugar content of the product (in grams):");
+                int protein = TextUI.promptInt("Enter the protein content of the product (in grams):");
+                int fat = TextUI.promptInt("Enter the fat content of the product (in grams):");
+                Product product = new Product(name, barcode, weight, calorie, carb, sugar, protein, fat);
+                saveProduct(product);
+                TextUI.displayMsg("Product added successfully");
+                succes = true;
+            } catch (InputMismatchException iME) {
+                TextUI.displayMsg("Invalid input! Please ensure you enter the correct type of value. Try again");
+                // Clear the invalid input from the buffer
+                TextUI.clearInputBuffer();
+            }
+        }
+    }
