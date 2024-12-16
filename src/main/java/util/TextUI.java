@@ -84,4 +84,20 @@ public class TextUI {
     public static void setScanner(Scanner scanner) {
         scan = scanner;
     }
+
+    public static double promptDouble(String msg){
+        System.out.println(msg);
+        return scan.nextDouble();
+    }
+
+    public static int promptInt(String msg){
+        System.out.println(msg);
+        return scan.nextInt();
+    }
+
+    public static void clearInputBuffer() {
+        if (scan.hasNextLine()) {
+            scan.nextLine(); // Clears the buffer
+        }
+    }
 }
