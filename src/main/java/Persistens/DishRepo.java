@@ -2,6 +2,9 @@ package Persistens;
 import Model.Dish;
 import Model.Product;
 import Model.User;
+import enums.DishCategory;
+import util.TextUI;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -24,7 +27,7 @@ public class DishRepo {
         String loadDishQuery = "SELECT * FROM Dishes";
 
         try (Connection con = DriverManager.getConnection(connectionString)) {
-            System.out.println("Connected to database");
+            TextUI.displayMsg("Connected to database");
 
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(loadDishQuery);
@@ -34,12 +37,17 @@ public class DishRepo {
                 String name = rs.getString("name");
                 double dishWeight = rs.getDouble("dishWeight");
                 int dishCalories = rs.getInt("dishCalorie");
+                String dishCategoryString = rs.getString("dishCategory");
 
-                // Hent produkter for denne dish
+                //Convert string to enum
+                DishCategory dishCategory = DishCategory.valueOf(dishCategoryString);
+
+                // get Products for this object
                 ArrayList<Product> products = DishProductRepo.getProductsForDish(dishId);
 
-                // Opret Dish-objekt
-                Dish dish = new Dish(name, dishWeight, dishCalories, products);
+                // Create dish object
+                Dish dish = new Dish(dishId, name, dishWeight, dishCalories, products, dishCategory);
+
                 dishes.add(dish);
             }
 
@@ -51,19 +59,18 @@ public class DishRepo {
         return dishes;
     }
 
-
     public static boolean saveDish(Dish dish) {
-        String insertDishQuery = "INSERT INTO Dishes (name, dishWeight, dishCalorie) VALUES (?, ?, ?)";
+        String insertDishQuery = "INSERT INTO Dishes (name, dishWeight, dishCalorie, dishCategory) VALUES (?, ?, ?, ?)";
         String insertDishProductQuery = "INSERT INTO DishProducts (dishId, productId) VALUES (?, ?)";
 
         try (Connection con = DriverManager.getConnection(connectionString)) {
-            System.out.println("Connected to database");
+            TextUI.displayMsg("Connected to database");
 
             // Check if the dish already exists
             ArrayList<Dish> dishes = loadDish();
             for (Dish d : dishes) {
                 if (d.getName().equalsIgnoreCase(dish.getName())) {
-                    System.out.println("Dish already exists");
+                    TextUI.displayMsg("Dish already exists");
                     return false;
                 }
             }
@@ -73,6 +80,7 @@ public class DishRepo {
             dishStmt.setString(1, dish.getName());
             dishStmt.setDouble(2, dish.getDishWeight());
             dishStmt.setInt(3, dish.getDishCalories());
+            dishStmt.setString(4, dish.getDishCategory().name());
 
             int affectedRows = dishStmt.executeUpdate();
             if (affectedRows == 0) {
@@ -91,8 +99,6 @@ public class DishRepo {
             for (Product product : dish.getProducts()) {
                 // Save the product if it doesn't exist
                 saveProduct(product);
-
-                // Link product to the dish
                 addProductToDish(dishId, product.getId());
             }
 
@@ -103,7 +109,6 @@ public class DishRepo {
 
         return false;
     }
-
 
     public static void addDishWithProducts(Dish dish, ArrayList<Integer> productIds) {
         String insertDish = "INSERT INTO Dishes (name, dishWeight, dishCalorie) VALUES (?, ?, ?)";
@@ -130,5 +135,4 @@ public class DishRepo {
             e.printStackTrace();
         }
     }
-
 }

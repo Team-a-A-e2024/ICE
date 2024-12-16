@@ -1,5 +1,7 @@
 package Persistens;
 
+import util.TextUI;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -13,7 +15,7 @@ public class SeedDB {
     public static void createDB() {
 
         try (Connection con = DriverManager.getConnection(connectionString)) {
-            System.out.println("Connected to database");
+            TextUI.displayMsg("Connected to database");
 
             try (Statement stmt = con.createStatement()) {
                 // Create Users Table
@@ -27,14 +29,14 @@ public class SeedDB {
                                 dish VARCHAR(50)
                             );
                         """);
-
                 // Create Dishes Table
                 stmt.execute("""
                             CREATE TABLE IF NOT EXISTS Dishes (
                                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                                 name VARCHAR(50),
                                 dishWeight FLOAT(10),
-                                dishCalorie INT(10)
+                                dishCalorie INT(10),
+                                dishCategory TEXT                            
                             );
                         """);
 
@@ -63,6 +65,7 @@ public class SeedDB {
                                 FOREIGN KEY(productId)REFERENCES Products(id)ON DELETE CASCADE
                         );
                         """);
+
                 System.out.println("Tables created successfully");
             } catch (SQLException e) {
                 System.out.println("Error: " + e.getMessage());
