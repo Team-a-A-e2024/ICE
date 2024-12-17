@@ -1,4 +1,6 @@
-import Model.Product;
+
+import Models.Product;
+import Persistens.ProductRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import util.AppService;
@@ -7,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-import Model.User;
+import Models.User;
 
 class AppServiceTest {
     private Scanner mockScanner;

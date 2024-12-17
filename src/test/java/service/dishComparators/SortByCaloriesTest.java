@@ -1,7 +1,7 @@
 package service.dishComparators;
 
-import Model.Dish;
-import Model.Product;
+import Models.Dish;
+import Models.Product;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Collections;

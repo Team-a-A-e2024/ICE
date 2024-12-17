@@ -1,8 +1,8 @@
 package Persistens;
-import Model.Dish;
-import Model.Product;
-import Model.User;
-import enums.DishCategory;
+
+import Models.Dish;
+import Models.Product;
+import Models.enums.DishCategory;
 import util.TextUI;
 
 import java.sql.*;
@@ -27,7 +27,6 @@ public class DishRepo {
         String loadDishQuery = "SELECT * FROM Dishes";
 
         try (Connection con = DriverManager.getConnection(connectionString)) {
-            TextUI.displayMsg("Connected to database");
 
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(loadDishQuery);
@@ -50,7 +49,6 @@ public class DishRepo {
 
                 dishes.add(dish);
             }
-
             stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -64,7 +62,6 @@ public class DishRepo {
         String insertDishProductQuery = "INSERT INTO DishProducts (dishId, productId) VALUES (?, ?)";
 
         try (Connection con = DriverManager.getConnection(connectionString)) {
-            TextUI.displayMsg("Connected to database");
 
             // Check if the dish already exists
             ArrayList<Dish> dishes = loadDish();
@@ -97,11 +94,8 @@ public class DishRepo {
 
             // Save products and link them to the dish
             for (Product product : dish.getProducts()) {
-                // Save the product if it doesn't exist
-                saveProduct(product);
                 addProductToDish(dishId, product.getId());
             }
-
             return true;
         } catch (SQLException e) {
             e.printStackTrace();

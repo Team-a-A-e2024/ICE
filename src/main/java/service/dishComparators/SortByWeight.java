@@ -1,6 +1,6 @@
 package service.dishComparators;
 
-import Model.Dish;
+import Models.Dish;
 
 import java.util.Comparator;
 

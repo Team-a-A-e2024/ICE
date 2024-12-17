@@ -1,9 +1,7 @@
 package util;
-
-import Model.Product;
-import Model.User;
+import Models.Product;
+import Models.User;
 import Persistens.ProductRepo;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,12 +10,22 @@ public class AppService {
     User user;
     private List<Product> productList;
 
-    public void setProductList(ArrayList<Product> productList) {
+    public void setProductList(List<Product> productList) {
+        if (productList == null) {
+            throw new IllegalArgumentException("Product list cannot be null");
+        }
         this.productList = productList;
     }
 
-    public AppService(ProductRepo productRepo) {
-        products = new ArrayList<>();
+    public AppService(User user) {
+        this.user = user;
+        this.productList = new ArrayList<>();
+    }
+    public User getUser(){
+        return user;
+    }
+    public void setUser(User user){
+        this.user = user;
     }
 
     //searches for a product within an array
