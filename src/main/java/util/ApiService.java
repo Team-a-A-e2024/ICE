@@ -51,6 +51,28 @@ public class ApiService {
         return parseSingleProduct(responseBody);
     }
 
+    public static String[] getProductInformation(String barcode) {
+        String searchRequest = baseUrl + "/api/v3/product/" + barcode + ".json";
+        String responseBody = GET(searchRequest);
+
+        JSONObject obj = new JSONObject(responseBody);
+        JSONObject jsonProduct = obj.getJSONObject("product");
+
+        String[] result = new String[4];
+        result[0] = jsonProduct.getString("ingredients_text_en");
+        String temp = "";
+        JSONArray tempArray = jsonProduct.getJSONArray("additives_original_tags");
+        for (int i = 0; i < tempArray.length(); i++) {
+            temp += tempArray.getString(i);
+            if (i > 0){temp += ",";}
+        }
+        result[1] = temp;
+        result[2] = "" + jsonProduct.getInt("nova_group");
+        result[3] = jsonProduct.getString("allergens");
+
+        return result;
+    }
+
     private static Product parseSingleProduct(String responseBody) {
         ApiService.products = ProductRepo.loadProducts();
         JSONObject obj = new JSONObject(responseBody);
@@ -82,9 +104,7 @@ public class ApiService {
             else {
                 return getProductByCodeInCache(code);
             }
-        } catch (Exception e) {
-            TextUI.displayMsg("Could not parse product");
-        }
+        } catch (Exception e) {}
         return null;
     }
 
@@ -122,9 +142,7 @@ public class ApiService {
                 else {
                     products.add(getProductByCodeInCache(code));
                 }
-            } catch (Exception e) {
-                TextUI.displayMsg("Could not parse product at index: " + i);
-            }
+            } catch (Exception e) {}
         }
 
         return products;
@@ -155,7 +173,7 @@ public class ApiService {
         try {
             return URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
         } catch (UnsupportedEncodingException e) {
-            TextUI.displayMsg(e.getMessage());
+            TextUI.displayMsg("Could not parse search: " + value);
         }
         return "";
     }
