@@ -1,6 +1,6 @@
 package com.example.ICE.service;
 
-import Model.User;
+import Models.User;
 import Persistens.UserRepo;
 import org.springframework.stereotype.Service;
 
