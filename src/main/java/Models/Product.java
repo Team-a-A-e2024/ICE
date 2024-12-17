@@ -1,8 +1,6 @@
 package Models;
-
 import Persistens.ProductRepo;
 import util.TextUI;
-
 import java.util.InputMismatchException;
 
 public class Product {

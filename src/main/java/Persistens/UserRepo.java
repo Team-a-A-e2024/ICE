@@ -1,8 +1,5 @@
 package Persistens;
-
 import Models.User;
-import util.TextUI;
-
 import java.sql.*;
 import java.util.ArrayList;
 

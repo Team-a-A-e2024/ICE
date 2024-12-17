@@ -1,8 +1,6 @@
 package util;
-
 import Models.User;
 import Persistens.UserRepo;
-
 import java.util.ArrayList;
 
 public class Authorization {
