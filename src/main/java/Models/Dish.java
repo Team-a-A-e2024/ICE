@@ -1,13 +1,12 @@
-package Model;
+package Models;
 
 import Persistens.DishProductRepo;
 import Persistens.DishRepo;
+import Persistens.ProductRepo;
 import util.TextUI;
-import enums.DishCategory;
-import java.util.ArrayList;
+import Models.enums.DishCategory;
 
-import enums.DishCategory;
-import util.TextUI;
+import java.util.ArrayList;
 
 import java.util.List;
 import java.util.Scanner;
@@ -22,15 +21,15 @@ public class Dish {
     public static ArrayList<Dish> loadedDishes = DishRepo.loadDish();
 
 
-    public Dish(int id, String name, double weight, int dishCalories, List<Product> products, DishCategory dishCategory){
+    public Dish(int id, String name, double weight, int dishCalories, List<Product> products, DishCategory dishCategory) {
         this.id = id;
         this.name = name;
         this.dishWeight = weight;
         this.dishCalories = dishCalories;
         this.products = products;
         this.dishCategory = dishCategory;
-}
- 
+    }
+
     public Dish(String name, double weight, int dishCalories, List<Product> products, DishCategory dishCategory) {
         this.name = name;
         this.dishWeight = weight;
@@ -86,12 +85,12 @@ public class Dish {
         if (!productNames.isEmpty()) {
             productNames.setLength(productNames.length() - 2);
         }
-        return "Dish: name " + name + " dishWeight " + dishWeight + " dishCalories " + dishCalories + " Products: [" + productNames + "]";
+        return "Dish: name " + name + " dishWeight " + dishWeight + " dishCalories " + dishCalories +  "Products: [" + productNames + "]";
     }
 
     public static void displayNutritionForAllDishes() {
         ArrayList<Dish> loadedDishes = DishRepo.loadDish();
-        System.out.println("Loaded dishes:");
+        TextUI.displayMsg("Loaded dishes:");
         for (Dish d : loadedDishes) {
             System.out.println(d);
         }
@@ -102,7 +101,7 @@ public class Dish {
             // Display all dishes for the user to choose from
             TextUI.displayMsg("Please choose a dish by entering the corresponding number:");
             for (int i = 0; i < loadedDishes.size(); i++) {
-                System.out.println((i + 1) + ": " + loadedDishes.get(i).getName());
+                TextUI.displayMsg((i + 1) + ": " + loadedDishes.get(i).getName());
             }
 
             // Get user input
@@ -125,7 +124,7 @@ public class Dish {
             if (!loadedProducts.isEmpty()) {
                 TextUI.displayMsg("Products for dish " + selectedDish.getName() + ":");
                 for (Product p : loadedProducts) {
-                    System.out.println(p);
+                    TextUI.displayMsg("" + p);
                 }
             } else {
                 TextUI.displayMsg("No products found for dish " + selectedDish.getName() + ".");
@@ -140,7 +139,7 @@ public class Dish {
             // Display all dishes for the user to choose from
             TextUI.displayMsg("Please choose a dish by entering the corresponding number:");
             for (int i = 0; i < loadedDishes.size(); i++) {
-                System.out.println((i + 1) + ": " + loadedDishes.get(i).getName());
+                TextUI.displayMsg((i + 1) + ": " + loadedDishes.get(i).getName());
             }
 
             // Get user input
@@ -187,7 +186,46 @@ public class Dish {
         }
     }
 
+    public static double calculateTotalWeightForADish(List<Product> products) {
+
+            int totalWeight = 0;
+
+            for (Product product : products) {
+                totalWeight += product.getWeight();
+            }
+
+            // Display results
+            return totalWeight;
+    }
+
+    public static int calculateTotalCalorieForADish(List<Product> products) {
+
+            int totalCalories = 0;
+
+            for (Product product : products) {
+                totalCalories += product.getCalorie();;
+            }
+
+            return totalCalories;
+    }
+
     public int getId() {
         return id;
+    }
+
+    public static void createDishByUser() {
+
+        List<Product> ListOfProducts = ProductRepo.loadProducts();
+        List<Product> choices = TextUI.promptChoiceProductsForDish(ListOfProducts, 20, "Which products would you like to add to your dish?");
+
+        String name = TextUI.promptText("What is the name of the dish?");
+        DishCategory dishCategory = TextUI.promptEnum("Which kind of meal is the dish?");
+
+        double totalWeight = Dish.calculateTotalWeightForADish(choices);
+        int totalCalories = Dish.calculateTotalCalorieForADish(choices);
+
+        Dish dish = new Dish(name, totalWeight, totalCalories, choices, dishCategory);
+        DishRepo.saveDish(dish);
+
     }
 }

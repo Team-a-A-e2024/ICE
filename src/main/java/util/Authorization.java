@@ -1,6 +1,6 @@
 package util;
 
-import Model.User;
+import Models.User;
 import Persistens.UserRepo;
 
 import java.util.ArrayList;

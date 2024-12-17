@@ -17,7 +17,13 @@ public class AppService {
     }
 
     public AppService(User user) {
-        products = new ArrayList<>();
+        this.user = user;
+        this.productList = new ArrayList<>();
+    }
+    public User getUser(){
+        return user;
+    }
+    public void setUser(User user){
         this.user = user;
     }
 

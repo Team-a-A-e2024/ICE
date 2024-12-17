@@ -1,6 +1,6 @@
 package com.example.ICE.controller;
 
-import Model.Product;
+import Models.Product;
 import com.example.ICE.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
