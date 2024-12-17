@@ -51,6 +51,14 @@ public class ApiService {
         return parseSingleProduct(responseBody);
     }
 
+    public static Product getProductInformation(String barcode) {
+        String searchRequest = baseUrl + "/api/v3/product/" + barcode + ".json";
+
+        String responseBody = GET(searchRequest);
+
+        return parseSingleProduct(responseBody);
+    }
+
     private static Product parseSingleProduct(String responseBody) {
         ApiService.products = ProductRepo.loadProducts();
         JSONObject obj = new JSONObject(responseBody);
