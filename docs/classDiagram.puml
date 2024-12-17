@@ -1,5 +1,5 @@
 @startuml
-
+skinparam ranksep 10
 class AppService {
     - User user
     - searchProduct()
@@ -41,9 +41,9 @@ package "util" {
     }
 }
 
-AppService *--- User
-User *--- Product
-User *--- Dish
-Dish *--- Product
+AppService *-down- User
+User *-down- Product
+User *- Dish
+Dish *- Product
 
 @enduml
