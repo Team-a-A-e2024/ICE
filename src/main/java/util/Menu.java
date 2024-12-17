@@ -47,7 +47,6 @@ public class Menu {
         }
     }
 
-
     public static void displayMenu() {
         List<String> options = new ArrayList();
         options.add("Search products");
