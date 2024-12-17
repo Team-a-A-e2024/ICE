@@ -1,15 +1,11 @@
 package Persistens;
-
 import Models.Dish;
 import Models.Product;
 import Models.enums.DishCategory;
 import util.TextUI;
-
 import java.sql.*;
 import java.util.ArrayList;
-
 import static Persistens.DishProductRepo.addProductToDish;
-import static Persistens.ProductRepo.saveProduct;
 
 
 public class DishRepo {
