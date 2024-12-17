@@ -104,6 +104,24 @@ public class TextUI {
         }
     }
 
+    public static List<Product> promptChoiceProductsForDish(List<Product> options, int limit, String msg){
+        List<Product> choices = new ArrayList<>();
+
+        boolean state = true;
+        while(state){
+            // The displayList() function is used to present options to the user.
+            displayListOfProducts(options, msg);
+            // The promptNumeric() function is used to capture numeric input from the user.
+            int choice = promptNumeric("");
+
+            if (choice > 0 && choice <= options.size()) {
+                choices.add(options.get(choice-1));
+            }
+            state = TextUI.promptBinary("Do you want to add more products? Enter Y or N");
+        }
+        return choices;
+    }
+
     public static void displayListOfProducts(List<Product> options, String msg){
         displayMsg("");
         displayMsg(msg);
