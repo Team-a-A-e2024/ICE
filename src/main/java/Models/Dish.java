@@ -193,7 +193,6 @@ public class Dish {
             for (Product product : products) {
                 totalWeight += product.getWeight();
             }
-
             // Display results
             return totalWeight;
     }
@@ -205,7 +204,6 @@ public class Dish {
             for (Product product : products) {
                 totalCalories += product.getCalorie();;
             }
-
             return totalCalories;
     }
 
@@ -226,6 +224,5 @@ public class Dish {
 
         Dish dish = new Dish(name, totalWeight, totalCalories, choices, dishCategory);
         DishRepo.saveDish(dish);
-
     }
 }

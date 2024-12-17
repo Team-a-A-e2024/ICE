@@ -1,18 +1,18 @@
 package util;
+
 import Models.Product;
 import Models.User;
 import Persistens.ProductRepo;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class AppService {
+    private List<String> products;
     User user;
     private List<Product> productList;
 
-    public void setProductList(List<Product> productList) {
-        if (productList == null) {
-            throw new IllegalArgumentException("Product list cannot be null");
-        }
+    public void setProductList(ArrayList<Product> productList) {
         this.productList = productList;
     }
 
