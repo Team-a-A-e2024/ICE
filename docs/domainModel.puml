@@ -1,5 +1,5 @@
 @startuml
-
+skinparam ranksep 10
        object User
        object Product
        object Food

@@ -1,15 +1,15 @@
 @startuml
-
+skinparam ranksep 20
 entity Users
 entity Products
 entity Dishes
 entity UsersDishes
 entity UsersProducts
 
-Users ||---|{ UsersDishes
-Users ||---|{ UsersProducts
-UsersDishes }|---|| Dishes
-UsersProducts }|---|| Products
-Dishes ||--|{ Products
+Users ||--right--|{ UsersDishes
+Users ||--down--|{ UsersProducts
+UsersDishes }|--down--|| Dishes
+UsersProducts }|--down--|| Products
+Dishes ||----|{ Products
 
 @enduml
