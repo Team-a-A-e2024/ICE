@@ -1,7 +1,7 @@
 
 ### 🍦ICE 
 
-![Pasted image 20241217100235.png](Pasted image 20241217100235.png)
+![Pasted image 20241217100235.png](Pasted%20image%2020241217100235.png)
 
 %%
 Frederik
@@ -12,7 +12,7 @@ Frederik
 
 #### ✅Must-have
 
-![Pasted image 20241217130051.png|500](Pasted image 20241217130051.png)
+![Pasted image 20241217130051.png](Pasted%20image%2020241217130051.png)
 
 %%
 Emil
@@ -23,7 +23,7 @@ Emil
 
 #### ✅Must-have
 
-![[Pasted image 20241217130114.png|700]](Pasted image 20241217130114.png)
+![Pasted image 20241217130114.png](Pasted%20image%2020241217130114.png)
 
 %%
 Emil
@@ -34,7 +34,7 @@ Emil
 
 #### 🌟Nice-to-have
 
-![[Pasted image 20241217130144.png|400]]
+![Pasted image 20241217130144.png](Pasted%20image%2020241217130144.png)
 
 %%
 Thomas
@@ -43,7 +43,7 @@ Thomas
 ---
 ### 🌍Domæne model
 
-![domainModel.png|300](domainModel.png)
+![domainModel.png](domainModel.png)
 
 %%
 Abbas
@@ -71,7 +71,7 @@ Abbas
 ---
 ### 💻Kode eksempler
 
-![[Pasted image 20241217114847.png]](Pasted image 20241217114847.png)
+![Pasted image 20241217114847.png](Pasted%20image%2020241217114847.png)
 
 %%
 Alissa
@@ -80,7 +80,7 @@ Alissa
 ---
 ### 💻Kode eksempler
 
-![[Pasted image 20241217114912.png]](Pasted image 20241217114912.png)
+![Pasted image 20241217114912.png](Pasted%20image%2020241217114912.png)
 
 %%
 Alissa
