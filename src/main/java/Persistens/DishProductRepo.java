@@ -1,22 +1,27 @@
 package Persistens;
 import Models.Product;
-
 import java.sql.*;
 import java.util.ArrayList;
 
+// Adds a product to a dish by inserting their IDs into the DishProducts table.
 public class DishProductRepo {
     static String connectionString = "jdbc:sqlite:" + System.getProperty("user.dir") + "/identifier.sqlite";
 
     public static void addProductToDish(int dishId, int productId) {
+        // SQL query to insert a dish-product relationship into the DishProducts table
         String insertDishProductQuery = "INSERT INTO DishProducts (dishId, productId) VALUES (?, ?)";
 
+        //Connecting to DB
         try (Connection con = DriverManager.getConnection(connectionString)) {
 
+            //Setting query parameters for dishId and productId
             PreparedStatement pstmt = con.prepareStatement(insertDishProductQuery);
             pstmt.setInt(1, dishId);
             pstmt.setInt(2, productId);
 
+            // Executing the insert operation
             pstmt.executeUpdate();
+
             pstmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
